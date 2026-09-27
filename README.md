@@ -1,40 +1,25 @@
-# GHPC Unofficial Co-op — 0.9.9.6
+# GHPC Unofficial Co-op — 0.9.9.7
 
-**Current source: [versions/0.9.9.6/](versions/0.9.9.6/)**
+[Download](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.7) | [Source](versions/0.9.9.7/) | [Build](BUILD.md) | [Test results](versions/0.9.9.7/TEST-RESULTS.md)
 
-- [Download 0.9.9.6](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.6)
-- [Checksums](SHA256SUMS.txt) · [Build instructions](BUILD.md) · [Security](SECURITY.md)
-- [Testing and limitations](versions/0.9.9.6/TEST-RESULTS.md)
-- Historical source remains in `legacy/0.9.8/` and earlier version directories.
-
-Host: enter a mission, press F8 and create a Steam or Direct IP room. Guests join from the main menu. One player per eligible vehicle, up to four players. F9 toggles nameplates; Shift+F9 toggles your own name. Steam is the usual online connection option; Direct IP defaults to loopback, with explicit LAN hosting available. Other-mod compatibility is unverified.
-
-# 0.9.9.6 — Experimental fixes for reported co-op issues
-
-This update adds code fixes for reported issues. **GHPC was not launched for this release, at the user's request. The new gameplay behavior is not runtime-verified.** The 3/4-instance gameplay tests documented for 0.9.9.5 must not be interpreted as tests of this build.
+# 0.9.9.7 — Cross-platoon seats and guest ammunition fixes
 
 ## Changes
-- Add a separate infantry health/death replication path. Only matching squad/member/faction/model/damage-layout identities are applied; ambiguous or unmatched identities are skipped and logged. Changes are sent in bounded batches and periodically refreshed. Infantry movement, spawning, disembarkation and ragdoll positions are **not** synchronized by this change; the reported infantry issue needs live retesting.
-- Transfer flex mission unit replacements, ammunition selections and infantry army overrides before loading the guest mission. Restore the guest's previous in-memory configuration when leaving. Preserve mission/vehicle roster validation. This does not transfer third-party mission files, arbitrary editor settings or campaign saves. Configuration size and missing local resources may still prevent joining.
-- Restore the native local-player reload rules instead of forcing manual reload on human-loaded weapons. Remote vehicle feeds use the guest's reload preference and native forced modes. This deliberately honors the game's automatic/manual setting rather than applying one rule to every tank.
-- Send host pause/AAR notices to guests and suppress guest driving/fire/reload requests while paused. Stop transmitting vehicle snapshots during host AAR/pause. Full AAR shot-history replay remains host-only; guest vehicle control pausing while the host simulation is paused is expected.
-- Handle a missing platoon in mission-offer diagnostics without dereferencing null.
-- Refactor objective display synchronization, preserve failure strikethroughs, cache objective key ordering, reuse ID sets, and make detailed objective diagnostics opt-in with `--coop-objective-diagnostics`. Snapshot buffers remain independently owned by queued sends.
+- Up to four players can now use eligible vehicles across friendly platoons. The host's platoon is preferred; other friendly vehicles fill remaining seats. Original platoon membership is preserved, with one player per vehicle.
+- Send the guest's NEXT ammunition selection to the host using the selected weapon's native ammunition rack. An already loaded round is not magically replaced, and an in-progress reload follows the game's normal rules.
+- Synchronize ballistic ammunition independently of the current breech contents. Previously, a reload followed immediately by firing could occur between snapshots, leaving the guest's fire-control system using the previous ammunition type. This could produce incorrect elevation when switching HEAT/APFSDS.
+- Initialize replicated weapon ammunition notifications and sample guest firing input later in the frame.
+- Steam and Direct IP use these same gameplay/session changes.
+
+## Verification
+Three- and four-instance local Direct IP tests used the mission Inconceivable Intermission, including cross-platoon allocation and an automated guest M60A3 TTS firing sequence alternating ammunition types. The test reproduced stale guest ballistic ammunition before the fix; afterward, HEAT/APFSDS changes reached the replicas even when the breech snapshot was empty. Shot-audit launch direction matched the transmitted barrel direction to the log's precision.
+
+327 code/transport fixture checks passed, including the empty-breech ballistic-type case. A separate-directory rebuild produced the same DLL hash.
+
+This does **not** establish perfect sight-to-impact accuracy at every range. The automated test directs the native fire-control system at a fixed point; it is not a complete human reticle/laser interaction test. Live multi-account Steam relay, WAN latency, every vehicle/mission and other mods remain unverified. Please report remaining aiming or synchronization issues with mission, vehicle, ammunition, range, host/guest role and logs.
 
 ## Updating
-**All players must update together.** Network protocol 17 rejects older protocol-16 clients rather than connecting incompatible mission formats.
+Close the game and use **Check Updates / Update and Play** in the existing launcher. All players must update together: protocol 18 is incompatible with older versions.
 
-For an intact official installation, close GHPC and use the existing desktop launcher: **Check Updates / Update and Play**. The manifest and DLL remain compatible with the existing updater format. Old launcher scripts are not replaced by a DLL update.
-
-If you installed a manually modified/test DLL or an old broken launcher, extract **GHPC-Coop-0.9.9.6-Setup.zip** into a new folder and run `Install.cmd` once. Integrity checks remain enabled; the updater will not silently overwrite an unrecognized local DLL.
-
-## Verification and remaining work
-- 265 existing protocol/transport, Steam-adapter, firing-input, peer-isolation and multi-peer fixture checks.
-- 30 native reload-rule combinations, 8 infantry health-parser cases, 13 mission-configuration fixture checks.
-- Updater integrity, backup and rollback fixture tests.
-- Native game assembly compilation. Separate-path reproducible build comparison is recorded in REPRODUCIBLE.md.
-
-These are code/build/fixture checks, **not** real gameplay, real Steam relay, or proof that all reports are fixed. Infantry identity matching, custom mission loading, actual auto-reloader behavior, pause/resume input behavior and objective UI all require live host/guest testing. Mod Manager compatibility remains unconfirmed.
-
-Please report version, mission and changed settings, vehicle, player count, host/guest role, and relevant logs (remove personal information). Developed with ChatGPT/Codex assistance; unofficial, unsigned, and not independently security-audited.
+Modified/test installations or broken old launchers should use the Setup ZIP once. The updater's integrity checks remain enabled. This release does not silently replace launcher scripts.
 
