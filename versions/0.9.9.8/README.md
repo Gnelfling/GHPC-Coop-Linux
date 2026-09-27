@@ -14,7 +14,7 @@ Up to four players across eligible friendly vehicles. Steam or Direct IP. Host: 
 ## Testing
 Two local Direct IP instances were tested in Bolder Limit. The helicopter candidate had 84 paired diagnostic samples with no position/state payload differences and two guest crash-effect invocations; visual helicopter synchronization was also confirmed during testing. These logs compare transmitted/received state, not independent rendered-transform measurements or pixel-identical particles.
 
-After the subsequent input/ammunition changes, both helicopters matched again and one guest shot's launch direction matched its transmitted barrel direction. Ammunition switching and helicopter destruction have not yet been repeated on that final candidate. Earlier observations must not be interpreted as exhaustive testing of every change.
+After the subsequent input/ammunition changes, both helicopters matched again and one guest shot's launch direction matched its transmitted barrel direction. The tester subsequently confirmed ammunition switching and helicopter shoot-down on the final candidate. This is a user-observed two-instance test, not exhaustive validation of every weapon, mission or network condition.
 
 Native compilation and 332 protocol/transport/fixture assertions passed. These are not a complete gameplay test or a live multi-account Steam/WAN test.
 
@@ -26,3 +26,4 @@ Native compilation and 332 protocol/transport/fixture assertions passed. These a
 
 ## Updating
 All players must update together: network protocol 19 rejects older clients. Close GHPC and use Check Updates / Update and Play in the existing launcher. Modified test DLLs or broken older launchers require the Setup ZIP; integrity checks remain enabled. DLL updates do not replace launcher scripts.
+
