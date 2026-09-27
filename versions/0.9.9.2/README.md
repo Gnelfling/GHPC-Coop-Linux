@@ -5,7 +5,6 @@ Fixes Check Updates / Update and Play failing with a missing Text property. The 
 IMPORTANT: Existing launchers update only the mod DLL, not launcher scripts. To receive this launcher fix, download GHPC-Coop-0.9.9.2-Setup.zip, extract it, close the game and launcher, and run Install.cmd once. Subsequent DLL update checks work normally. The mod DLL and protocol are unchanged from 0.9.9.1; this is a launcher/package update.
 
 The real Check Updates execution path was tested on Windows PowerShell 5.1 against GitHub. Mod gameplay limitations from 0.9.9.1 remain. Source, pinned build instructions and SHA-256 checksums are included. Hashes verify integrity, not safety certification.
-
 # GHPC Unofficial Co-op 0.9.9.2
 
 Experimental Steam co-op for up to four players, including the host. Each player controls a separate vehicle. All players must use this version and matching supported game files. This update replaces Direct IP play with Steam rooms and is incompatible with 0.9.8 sessions.
@@ -39,8 +38,3 @@ The Source ZIP contains all original mod/network code, assets, tests, and instal
 
 ## Rights
 Original mod code is MIT licensed. All rights to GHPC and its original content belong to its developers and respective rights holders. Third-party components retain their own licenses. This unofficial mod is not endorsed by the GHPC developers. At their request, distribution may be discontinued and distributed files/download links removed.
-
-## Repository layout
-The current buildable source is in [versions/0.9.9.2](versions/0.9.9.2). Older root-level code/scripts are retained for historical 0.9.8 review; do not use them to build or install this release.
-
-[Download v0.9.9.2](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.2).
