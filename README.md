@@ -1,40 +1,38 @@
-# GHPC Unofficial Co-op — public source and release transparency
+# GHPC Unofficial Co-op 0.9.9.1
 
-Experimental, unofficial co-op for Gunner, HEAT, PC! Up to four players via Direct IP, limited by eligible vehicles in the host's platoon. This project is not endorsed by the GHPC developers.
-
-**[Download the installer](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.8)** — choose `GHPC-Coop-0.9.8-Launcher-Setup.zip`.
-
-## Review before running
-
-The mod's C# source, readable installer/updater scripts, build instructions, tests, and SHA-256 values are published here. The code was developed with AI assistance and human gameplay testing. Publication is intended to enable independent review, not to substitute for it. There has been no independent security audit, and no claim of antivirus certification is made.
-
-- [SECURITY.md](SECURITY.md): actual permissions, networking, update trust, limitations, and reporting.
-- [BUILD.md](BUILD.md): build from source with your own installed game.
-- [SHA256SUMS.txt](SHA256SUMS.txt): hashes of published release assets.
-- [SOURCE-MATCH.json](SOURCE-MATCH.json): C# source hashes matched to the installer ZIP.
-- [VERIFICATION.md](VERIFICATION.md): performed checks and their limits.
-- [THIRD-PARTY.md](THIRD-PARTY.md): loader, game dependencies, and generated artwork.
-
-Source files are kept in this repository's root for easy browsing. `CoopLabMod.cs` is the mod entry point; `CoopMenu.cs` is the F8 interface; `Protocol.cs`, `Transport.cs`, `MultiRoom.cs`, and `MultiCoop.cs` implement the multiplayer connection. Other C# files implement gameplay synchronization. `SelfTest.cs` is a test executable, not a mod component.
+Experimental Steam co-op for up to four players, including the host. Each player controls a separate vehicle. All players must use this version and matching supported game files. This update replaces Direct IP play with Steam rooms and is incompatible with 0.9.8 sessions.
 
 ## Install and play
+1. Close GHPC, download the Steam-Preview-Setup ZIP, and extract the entire archive.
+2. Run Install.cmd. Select the installed game Bin folder containing GHPC.exe if prompted.
+3. Sign in to Steam. Each remote player needs their own account and game installation.
+4. Launch with the GHPC Co-op shortcut. Host: enter a mission, wait for control, press F8, then CREATE STEAM ROOM.
+5. Guests: remain at the main menu, press F8 and join using the host's Steam Room ID or invitation.
+6. Capacity is limited by eligible vehicles, up to four. Explicit platoons stay separate. Legacy missions without platoon data use eligible ungrouped vehicles of the same faction. Missions with only one eligible friendly vehicle cannot host co-op.
+7. Disconnect before changing missions. Guests return to the main menu before joining the new room.
 
-1. Close GHPC. Extract the full installer ZIP and run `Install.cmd`.
-2. When asked, select `Bin/GHPC.exe` from your game installation. The full setup requests administrator access and configures a game-specific firewall rule and attempts UPnP port forwarding; see SECURITY.md before accepting.
-3. Host: enter a mission, wait until the vehicle is controllable, press F8, then create a room.
-4. Guest: remain at the main menu, press F8, enter the host's IP and matching port (default TCP 22222), then join.
-5. Use the GHPC Co-op desktop shortcut to check for future updates before launching. Steam/direct EXE launch bypasses the update check.
+## Updating
+The manager checks the latest published release of dnjsxoq013-debug/GHPC-Coop. Close GHPC before updating. It downloads the manifest and DLL over HTTPS, verifies hashes and game/loader compatibility, and backs up the previous DLL. Existing users whose manager still points to the old repository must change its repository field. Everyone must update together. Setup does not add firewall rules or router mappings, and does not remove old Direct IP rules.
 
-Use 127.0.0.1 for same-PC tests, the host's local IP on a LAN, and the host's public IP across the internet. LAN success does not prove internet reachability. Use Direct IP for 3–4 players; Steam rooms are a separate two-player test mode. All participants need matching game and mod versions. Not all missions or other mods have been verified.
+## Changes
+- Four-player Steam room structure with independent guest connections and slot release on departure.
+- Disambiguate legacy spawn points using their static location and orientation, not moving vehicle positions.
+- Support same-faction ungrouped vehicles in legacy missions with missing platoon data.
+- Vehicle switching and ownership validation improvements; manual reload handling for human-loaded player weapons.
+- Invite UI and diagnostic improvements.
 
-Existing installations connected to the previous repository can use GHPC Co-op Manager's repository field to connect to `https://github.com/dnjsxoq013-debug/GHPC-Coop`. Reinstallation preserves an already configured source, so check this field when migrating.
+## Verification and limitations
+The included VALIDATION.tsv records 121 mission/faction cases and subsequent retests. HOST_ROOM_PASS means host lobby/listener creation only. It does not prove remote guest joining, combat synchronization, or four-PC gameplay. Earlier sandbox launch failures are excluded. Some missions have insufficient eligible vehicles; Steam timeouts and the Eastern Scramble vehicle-selection failure remain documented. M60 sight motion, T-72 smoke and all vehicle/mission combinations are not fully verified. No universal compatibility claim is made.
 
-## License and original game rights
+185 protocol/transport/seat checks and 21 fake-Steam adapter checks passed. These are offline tests. The same DLL SHA-256 was produced in separate build stages. Cross-machine reproducibility still depends on the exact pinned references; see REPRODUCIBLE.md.
 
-The original mod source and original installer/updater scripts in this repository are released under the [MIT License](LICENSE). This permission does not cover GHPC or third-party dependencies. GHPC's original content belongs to its developers and respective rights holders. No game assemblies or extracted game assets are included in this source repository.
+## Source and integrity
+The Source ZIP contains all original mod/network code, assets, tests, and installer/updater scripts. Game binaries and third-party loader binaries are excluded from the source archive. Build from your legally installed matching game with build.ps1; see REPRODUCIBLE.md. SHA256SUMS.txt in release assets verifies the uploaded files. Internal package SHA256SUMS.txt verifies extracted files. Hashes prove matching bytes, not that software is safe. The DLL is unsigned; no independent security audit or antivirus certification is claimed.
 
-At the GHPC developers' request, hosted distribution and download links may be discontinued or removed. Removal does not revoke rights already granted under applicable open-source licenses.
+## Rights
+Original mod code is MIT licensed. All rights to GHPC and its original content belong to its developers and respective rights holders. Third-party components retain their own licenses. This unofficial mod is not endorsed by the GHPC developers. At their request, distribution may be discontinued and distributed files/download links removed.
 
-## Version history
+## Repository layout
+The current buildable source is in [versions/0.9.9.1](versions/0.9.9.1). Older root-level code/scripts are retained for historical 0.9.8 review; do not use them to build or install this release.
 
-See [CHANGELOG.md](CHANGELOG.md), [releases](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases), and the repository commit history. Precompiled installers are available under Releases; building is optional.
+[Download v0.9.9.1](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.1).
