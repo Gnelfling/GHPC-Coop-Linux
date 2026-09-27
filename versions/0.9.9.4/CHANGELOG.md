@@ -12,4 +12,3 @@ Download GHPC-Coop-0.9.9.4-Setup.zip, extract it, close GHPC and its launcher, a
 After installing this setup, use the desktop GHPC Co-op Manager / Check Updates or GHPC Co-op / Update and Play for future compatible DLL updates. No local PC installation is performed by publishing this release.
 
 Source and SHA-256 checksums are included. No new gameplay fixes, signing or security certification are claimed. Existing gameplay limitations remain.
-
