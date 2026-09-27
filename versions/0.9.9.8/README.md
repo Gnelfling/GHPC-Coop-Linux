@@ -1,6 +1,6 @@
 # GHPC Unofficial Co-op 0.9.9.8
 
-[Download](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.8) | [Source](versions/0.9.9.8/) | [Build](BUILD.md) | [Testing](VERIFICATION.md)
+Up to four players across eligible friendly vehicles. Steam or Direct IP. Host: enter a mission and use F8. Guest: join from the main menu. F9 toggles names; Shift+F9 toggles your own name.
 
 # 0.9.9.8 — Experimental helicopter synchronization
 
@@ -26,4 +26,3 @@ Native compilation and 332 protocol/transport/fixture assertions passed. These a
 
 ## Updating
 All players must update together: network protocol 19 rejects older clients. Close GHPC and use Check Updates / Update and Play in the existing launcher. Modified test DLLs or broken older launchers require the Setup ZIP; integrity checks remain enabled. DLL updates do not replace launcher scripts.
-
