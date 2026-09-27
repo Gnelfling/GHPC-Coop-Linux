@@ -1,43 +1,49 @@
-# 0.9.9.4 — Launcher compatibility and English error messages
+# GHPC Unofficial Co-op — 0.9.9.5
 
-This is a launcher/installer update. The mod DLL and Steam protocol are unchanged from 0.9.9.3.
+**Current release source: [versions/0.9.9.5/](versions/0.9.9.5/)**
 
-- Launcher failures display an English explanation instead of exposing localized Windows exception text.
-- Original error details are retained in launcher-errors.log in the updater folder (accessible through Backups).
-- The updater and installer use .NET SHA-256/SHA-512 directly, avoiding dependence on the Get-FileHash PowerShell command. Integrity checks remain enabled.
+- [Download 0.9.9.5](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.5)
+- [Checksums](SHA256SUMS.txt) · [Build instructions](BUILD.md) · [Security and trust](SECURITY.md)
+- [Detailed testing limits](versions/0.9.9.5/TEST-RESULTS.md)
+- Historical code is in [legacy/0.9.8/](legacy/0.9.8/); it is not the current release.
 
-## How to install this update
-Download GHPC-Coop-0.9.9.4-Setup.zip, extract it, close GHPC and its launcher, and run Install.cmd once. Existing automatic updates replace only the mod DLL, not launcher scripts. Clicking Check Updates in an older launcher does NOT install this launcher fix, even if its installed version number advances.
+This is an unofficial experimental co-op mod developed with substantial ChatGPT/Codex assistance. Each player controls a separate eligible vehicle, up to four players depending on the host's platoon. The host enters a mission then creates a room using F8; guests join from the main menu. It is not shared-crew multiplayer inside one tank. Other-mod compatibility is unverified.
+# 0.9.9.5 — Multiplayer fixes, Direct IP and nameplates
 
-After installing this setup, use the desktop GHPC Co-op Manager / Check Updates or GHPC Co-op / Update and Play for future compatible DLL updates. No local PC installation is performed by publishing this release.
+I have addressed as many of the reported issues as I could reproduce or identify, and tested this build with three and four local game instances. This is still an experimental mod, not a claim that every multiplayer bug is fixed. If you encounter another issue, please report it with the mission, vehicle, player count, host/guest role and logs. I will investigate and aim to release follow-up fixes as soon as practical.
 
-Source and SHA-256 checksums are included. No new gameplay fixes, signing or security certification are claimed. Existing gameplay limitations remain.
+## Changes
 
-# GHPC Unofficial Co-op
+- Steam and Direct IP use the same multiplayer host/session, vehicle allocation, movement, firing and damage code. Direct IP is an additional connection option, not a separate simplified simulation.
+- Preserve the complete firing input when a click and subsequent changed aim/release arrive in the same host frame.
+- Apply authoritative damage on receipt instead of waiting for visual interpolation.
+- Isolate a remote player's vehicle-processing failure so other players can remain connected.
+- Reset remote smoke-request tracking when vehicle control changes hands.
+- Text-only vehicle nameplates: F9 toggles all names; Shift+F9 toggles your own name. Profile-image loading has been removed from the invitation menu.
+- Smaller F8 menu positioned at the upper left.
+- Preserve the 0.9.9.4 launcher compatibility, English errors and integrity checks.
 
-**Current release source: [versions/0.9.9.4/](versions/0.9.9.4/)**
+## Actual local game tests
 
-- [Download release 0.9.9.4](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.4)
-- [Verify release files: SHA256SUMS.txt](SHA256SUMS.txt)
-- [Build instructions](BUILD.md) · [Security and trust](SECURITY.md)
-- [Historical 0.9.8 code](legacy/0.9.8/) — not shipped in the current release
+| Test | Result |
+|---|---|
+| 3 players, Slow Raid, PT-76B guests | Both guests joined; 8 shots each; 19 impact events matched between guests; M60A3 TTS destruction state matched. |
+| 4 players, Under Pressure, M60A1 RISE P guests | All three guests joined; 6 shots each; 18 impact events matched on all three; T-55A destruction state matched. |
+| One guest leaves a 4-player session | Remaining guests continued receiving matching state for over a minute. |
+| Damage-state comparison | No mismatches in the completed repeat runs. |
 
-## Installer execution policy
+Important limits: these were separate running games on one PC using TCP loopback and generated control inputs. Enemy destruction was deliberately triggered on the host to isolate state propagation; it was not a player-shell kill test. Impact positions were compared in replay logs. Manual sight/laser accuracy, distant targets, visual wreck appearance, real Steam relay latency/loss, every mission and other mods still need further testing. A first 3-player run left one vehicle unable to fire; that result was inconclusive and was not counted as a pass. Both vehicles fired in the repeat run.
 
-Install.cmd starts a local, readable Setup.ps1 using `powershell.exe -ExecutionPolicy Bypass`. This applies to that PowerShell process; it does not permanently change the system execution policy or disable antivirus. It is not a safety guarantee: review the scripts before running them. The updater downloads release metadata and a verified DLL, not remote PowerShell scripts.
-
-# 0.9.9.4 — Steam friend portraits and invitation menu
-
-- Steam profile pictures beside friends, with a placeholder while unavailable or loading.
-- Persona status, aligned invitation buttons, clipped long names and an olive/dark GHPC-style panel.
-- Only visible rows request portraits; a bounded 64-entry memory cache retries pending images and releases textures on eviction/shutdown. No separate login or web API key is required.
+265 protocol, adapter and regression checks also passed. These are separate from the actual game tests. Steam adapter checks use fixtures, not live Steam accounts.
 
 ## Updating
-Users who installed the 0.9.9.2 setup: close GHPC, open the desktop GHPC Co-op Manager and click Check Updates, or launch via GHPC Co-op / Update and Play. This update changes the DLL and can be delivered automatically. Players should update together.
-Older broken launchers must install the full Setup ZIP once; DLL updates do not replace launcher scripts. Direct Steam or GHPC.exe launch does not run the updater.
 
-## Verification
-Compilation, 185 protocol/transport tests and 21 fake-Steam adapter tests passed. These do not verify live avatar appearance; in-game visual and remote invitation testing remain pending. Existing gameplay limitations remain. Smoke color/range have not been changed.
-Full source and pinned build instructions are supplied. SHA256SUMS.txt covers uploaded payloads. Hashes verify integrity, not independent security certification.
+Close GHPC. If you already installed the working 0.9.9.4 launcher, use the desktop GHPC Co-op launcher **Check Updates / Update and Play**. The normal updater replaces the DLL. All players should update together.
 
-Historical 0.9.8 source and installer scripts are archived in [legacy/0.9.8](legacy/0.9.8/). They are not part of the current release. Earlier 0.9.9.x snapshots remain under versions/.
+If an old launcher fails, download **GHPC-Coop-0.9.9.5-Setup.zip**, extract into a new folder and run `Install.cmd` once. DLL updates do not replace old launcher scripts. A manually modified experimental DLL may fail the launcher's integrity check; use the new Setup ZIP to reinstall the published build. Do not disable hash checks.
+
+## Direct IP
+
+Host enters a mission, opens F8, selects DIRECT IP, then CREATE DIRECT ROOM. Guests join from the main menu using the host address, port and matching room code. Same-PC address: `127.0.0.1`; default TCP port: `22395`. Host defaults to this-PC-only binding. LAN hosting requires selecting LAN / DIRECT IP and a room code of at least 8 characters. No firewall or router rules are added automatically. Direct IP does not provide Steam identity verification or transport encryption; internet-facing hosting has not been validated.
+
+Full source, pinned build instructions and SHA-256 checksums are included. The DLL was rebuilt in two directories with identical bytes. This is a local reproducibility check, not an independent security audit. Developed with substantial ChatGPT/Codex assistance; unsigned and unofficial, with no endorsement by the GHPC developers.

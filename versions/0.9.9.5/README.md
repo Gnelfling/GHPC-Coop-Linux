@@ -37,21 +37,3 @@ If an old launcher fails, download **GHPC-Coop-0.9.9.5-Setup.zip**, extract into
 Host enters a mission, opens F8, selects DIRECT IP, then CREATE DIRECT ROOM. Guests join from the main menu using the host address, port and matching room code. Same-PC address: `127.0.0.1`; default TCP port: `22395`. Host defaults to this-PC-only binding. LAN hosting requires selecting LAN / DIRECT IP and a room code of at least 8 characters. No firewall or router rules are added automatically. Direct IP does not provide Steam identity verification or transport encryption; internet-facing hosting has not been validated.
 
 Full source, pinned build instructions and SHA-256 checksums are included. The DLL was rebuilt in two directories with identical bytes. This is a local reproducibility check, not an independent security audit. Developed with substantial ChatGPT/Codex assistance; unsigned and unofficial, with no endorsement by the GHPC developers.
-
-
----
-
-# 0.9.9.4 — Launcher compatibility and English error messages
-
-This is a launcher/installer update. The mod DLL and Steam protocol are unchanged from 0.9.9.3.
-
-- Launcher failures display an English explanation instead of exposing localized Windows exception text.
-- Original error details are retained in launcher-errors.log in the updater folder (accessible through Backups).
-- The updater and installer use .NET SHA-256/SHA-512 directly, avoiding dependence on the Get-FileHash PowerShell command. Integrity checks remain enabled.
-
-## How to install this update
-Download GHPC-Coop-0.9.9.4-Setup.zip, extract it, close GHPC and its launcher, and run Install.cmd once. Existing automatic updates replace only the mod DLL, not launcher scripts. Clicking Check Updates in an older launcher does NOT install this launcher fix, even if its installed version number advances.
-
-After installing this setup, use the desktop GHPC Co-op Manager / Check Updates or GHPC Co-op / Update and Play for future compatible DLL updates. No local PC installation is performed by publishing this release.
-
-Source and SHA-256 checksums are included. No new gameplay fixes, signing or security certification are claimed. Existing gameplay limitations remain.

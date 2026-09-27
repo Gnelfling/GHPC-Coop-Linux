@@ -1,17 +1,11 @@
-# Security and trust: 0.9.9.4
+# Security and trust — 0.9.9.5
 
-This unsigned experimental mod and readable installer/updater are published for independent inspection. No independent security audit, malware-free guarantee, or antivirus certification is claimed. SHA-256 proves matching bytes, not safety. Mod and networking source: [versions/0.9.9.4/src](versions/0.9.9.4/src/). Build inputs and expected DLL hash: [build-lock.json](versions/0.9.9.4/build-lock.json).
+This unsigned experimental mod has not received an independent security audit. No malware-free guarantee or antivirus certification is claimed. SHA-256 verifies matching bytes, not safety. Current networking and gameplay source is in [versions/0.9.9.5/src](versions/0.9.9.5/src/); pinned inputs and the expected DLL hash are in [build-lock.json](versions/0.9.9.5/build-lock.json).
 
-Steam matchmaking and relay-based networking are used. Steam peer identities and lobby membership are checked before accepting guests. The host authoritatively controls the simulation. Release 0.9.9.4 setup does not add firewall/UPnP rules; legacy/0.9.8/Configure-Network.ps1 is historical 0.9.8 code and is not shipped or executed by this setup. Previously installed rules are not removed automatically.
+Steam transport verifies peer identities and lobby membership. Direct IP uses TCP with a matching game build and room code; it does not authenticate Steam identities or encrypt the transport. Direct hosting binds only to loopback by default. LAN mode must be explicitly selected and requires a room code of at least 8 characters. Direct internet hosting has not been validated. Neither the setup nor the mod adds firewall or router/UPnP rules automatically. Previously installed legacy rules are not removed automatically.
 
-The updater trusts this publisher's latest GitHub release, uses HTTPS and exact asset URL/version checks, verifies SHA-256 and GitHub asset digests when present, checks game/loader hashes, blocks updates while GHPC runs, and backs up the previous DLL. It downloads a DLL and data manifest, not executable remote scripts. Publisher or account compromise remains a trust risk. Signing and independent audits are not provided.
+The updater uses HTTPS, validates asset URL/version, checks SHA-256 and GitHub asset digests when available, verifies supported game/loader hashes, blocks updates while GHPC runs and backs up the old DLL. It downloads a DLL and metadata, not executable remote scripts. Publisher/account compromise is still a trust risk. DLL updates do not replace launcher scripts.
 
-Only original mod/source material is MIT licensed. Game assemblies must come from the user's legally installed game. MelonLoader is bundled under its own license with notices and original archive checksum. Original GHPC rights remain with their respective owners.
+Install.cmd invokes local readable Setup.ps1 with ExecutionPolicy Bypass for that process only. It does not permanently alter execution policy or disable antivirus. Setup may request administrator access. Review the scripts before running them.
 
-## Local installer invocation
-
-Install.cmd uses -ExecutionPolicy Bypass for the launched PowerShell process only. It does not set a permanent machine/user execution policy or disable antivirus. This allows the locally extracted, unsigned installer script to run; users should inspect its contents. The setup can request administrator elevation. Published scripts remain readable, and unsigned code still requires trust in the publisher.
-
-## Repository layout
-
-Current release files are under versions/0.9.9.4. Historical root code has been moved to legacy/0.9.8 for review. This documentation and layout cleanup does not alter any release asset, DLL, published checksum or release tag.
+Only original mod materials are MIT licensed. GHPC/game assemblies remain proprietary and must come from a legally installed game. MelonLoader is bundled with its license, notices and archive checksum. This project is not endorsed by GHPC's developers.
