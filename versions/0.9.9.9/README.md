@@ -1,8 +1,6 @@
 # GHPC Unofficial Co-op 0.9.9.9
 
-[Download](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.9) | [Source](versions/0.9.9.9/) | [Build](BUILD.md) | [Testing](VERIFICATION.md)
-
-Up to **4 players including the host**, one player per eligible friendly vehicle. Vehicles can come from different friendly platoons; a single platoon does not need four vehicles. Available eligible vehicles still limit player count.
+Install: extract Setup ZIP, close GHPC, run Install.cmd. Up to four players across eligible friendly platoons; one player per vehicle.
 
 # 0.9.9.9 — Experimental infantry synchronization
 
