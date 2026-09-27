@@ -1,14 +1,3 @@
-# GHPC Unofficial Co-op — 0.9.9.6
-
-**Current source: [versions/0.9.9.6/](versions/0.9.9.6/)**
-
-- [Download 0.9.9.6](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.6)
-- [Checksums](SHA256SUMS.txt) · [Build instructions](BUILD.md) · [Security](SECURITY.md)
-- [Testing and limitations](versions/0.9.9.6/TEST-RESULTS.md)
-- Historical source remains in `legacy/0.9.8/` and earlier version directories.
-
-Host: enter a mission, press F8 and create a Steam or Direct IP room. Guests join from the main menu. One player per eligible vehicle, up to four players. F9 toggles nameplates; Shift+F9 toggles your own name. Steam is the usual online connection option; Direct IP defaults to loopback, with explicit LAN hosting available. Other-mod compatibility is unverified.
-
 # 0.9.9.6 — Experimental fixes for reported co-op issues
 
 This update adds code fixes for reported issues. **GHPC was not launched for this release, at the user's request. The new gameplay behavior is not runtime-verified.** The 3/4-instance gameplay tests documented for 0.9.9.5 must not be interpreted as tests of this build.
@@ -37,4 +26,3 @@ If you installed a manually modified/test DLL or an old broken launcher, extract
 These are code/build/fixture checks, **not** real gameplay, real Steam relay, or proof that all reports are fixed. Infantry identity matching, custom mission loading, actual auto-reloader behavior, pause/resume input behavior and objective UI all require live host/guest testing. Mod Manager compatibility remains unconfirmed.
 
 Please report version, mission and changed settings, vehicle, player count, host/guest role, and relevant logs (remove personal information). Developed with ChatGPT/Codex assistance; unofficial, unsigned, and not independently security-audited.
-
