@@ -11,5 +11,3 @@ Older broken launchers must install the full Setup ZIP once; DLL updates do not 
 ## Verification
 Compilation, 185 protocol/transport tests and 21 fake-Steam adapter tests passed. These do not verify live avatar appearance; in-game visual and remote invitation testing remain pending. Existing gameplay limitations remain. Smoke color/range have not been changed.
 Full source and pinned build instructions are supplied. SHA256SUMS.txt covers uploaded payloads. Hashes verify integrity, not independent security certification.
-
-Current complete source: versions/0.9.9.3. See that directory for build, license and installation details. Root source files are historical 0.9.8 files.

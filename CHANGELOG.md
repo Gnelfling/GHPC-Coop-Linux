@@ -1,8 +1,14 @@
-# 0.9.9.2 — Launcher hotfix
+# 0.9.9.3 — Steam friend portraits and invitation menu
 
-Fixes Check Updates / Update and Play failing with a missing Text property. The status label now has a distinct script-scoped name so the updater callback cannot shadow it.
+- Steam profile pictures beside friends, with a placeholder while unavailable or loading.
+- Persona status, aligned invitation buttons, clipped long names and an olive/dark GHPC-style panel.
+- Only visible rows request portraits; a bounded 64-entry memory cache retries pending images and releases textures on eviction/shutdown. No separate login or web API key is required.
 
-IMPORTANT: Existing launchers update only the mod DLL, not launcher scripts. To receive this launcher fix, download GHPC-Coop-0.9.9.2-Setup.zip, extract it, close the game and launcher, and run Install.cmd once. Subsequent DLL update checks work normally. The mod DLL and protocol are unchanged from 0.9.9.1; this is a launcher/package update.
+## Updating
+Users who installed the 0.9.9.2 setup: close GHPC, open the desktop GHPC Co-op Manager and click Check Updates, or launch via GHPC Co-op / Update and Play. This update changes the DLL and can be delivered automatically. Players should update together.
+Older broken launchers must install the full Setup ZIP once; DLL updates do not replace launcher scripts. Direct Steam or GHPC.exe launch does not run the updater.
 
-The real Check Updates execution path was tested on Windows PowerShell 5.1 against GitHub. Mod gameplay limitations from 0.9.9.1 remain. Source, pinned build instructions and SHA-256 checksums are included. Hashes verify integrity, not safety certification.
+## Verification
+Compilation, 185 protocol/transport tests and 21 fake-Steam adapter tests passed. These do not verify live avatar appearance; in-game visual and remote invitation testing remain pending. Existing gameplay limitations remain. Smoke color/range have not been changed.
+Full source and pinned build instructions are supplied. SHA256SUMS.txt covers uploaded payloads. Hashes verify integrity, not independent security certification.
 
