@@ -1,0 +1,32 @@
+{
+  "release": "v0.9.8",
+  "description": "Each C# file is byte-for-byte identical to the src directory inside the published installer ZIP. Build script paths adapted for a portable flat source checkout.",
+  "sha256": {
+    "AmmoSync.cs": "69de3ca9fada52fe0503562ed0ffda9749c9991a357af644c2e8d7dbb4fc22e4",
+    "CombatVisuals.cs": "c3e0c05ff83f7708d4348deffa23ff98e842488c91dc6741ea2ed4cfb0aaf9e3",
+    "CoopLabMod.cs": "124a835627ff68df13e9c94c423476406bd0282ea84ec6b499421b480ca7568e",
+    "CoopMenu.cs": "ddfce42cad17d5c2cabdd90cb10f0a73ec29defc2cc33c9aa0a25f6b8083a17f",
+    "DamageRegression.cs": "5c7de0defaab76fe4599b22fff5f6468cff4e1f6127665ab04018a981927c92c",
+    "DamageSync.cs": "9e272d0b682cc08f0503f9cc025768e42e9d0c3dcf05088bd461d94cf425e6c8",
+    "EquipmentSync.cs": "289e5935749a45cee2b8b3075378b439d50449513dfce7ca602fd57ba5b0233c",
+    "GameBridge.cs": "8fec8058dd58cde3496401c6af273e31108d41fe27fc11190906508f782ccfc7",
+    "MissionChoices.cs": "c9ecbdbad5420ef0f46e54e733b0741bfccf4bc62708c19c26e0ab08192d4d1a",
+    "MultiCoop.cs": "3b91cd6effcbab2a95d5546c7b462ebeb71398a72cbc93ba377855d293b7cbaa",
+    "MultiRoom.cs": "8b606297602578419a1cc4e00d7d4525ca250f8a304b57b799eb208d76ae0ca6",
+    "ObjectiveSync.cs": "730242023d75832bfde31c124fb95e98100510a701f3be4a2017cde5c763c5ab",
+    "Protocol.cs": "a03ae5944ddfb3c0f62813d6cb2b05a7eb5309d9bfde3a827eb7032ad2ca0391",
+    "RenderingSync.cs": "6fa3fc46413877b1318146b5d3017cf3a015e5a3f7819432c44f6d11bb2ce2d3",
+    "ReplicaCrewAudio.cs": "c3899b8782191165993577adcdccca754979161e9d7493a1bb0919ec3ff59e29",
+    "RoomJoin.cs": "456d90ab3127156283776c30e5e1ca7fde57e72460b8ddabd769fbbcd78b3d9e",
+    "RoomSeats.cs": "7b8b1009f9d8ea483c1e2c4df329aef96ee694c0b5f524fba0722a039f965e6b",
+    "SteamLink.cs": "53af42bcf44785a79512f8c532ebbf31dc45c54412e538c68d0e7675792d938a",
+    "SteamMenu.cs": "00dace28285b9c667b5290e25839cfbccd3e762ece8507ce29529d6a4e064863",
+    "SteamRoomPolicy.cs": "87dd83410273c33ce5bb907957a4bbd317490424b20272fe85d46530d8f84ebe",
+    "SupportRegression.cs": "cf5466852f4b059c17f2ee388311d6ec87fc483ab67d3039aed163bf044ad6c9",
+    "SupportSync.cs": "aaa5b6c761d9ab1daec707f850ddad4eecd0fce19a64ff0482444714c71b834b",
+    "TracerSync.cs": "4d4700b9c7eaf2434c79a5b4cb5904549c23bd9fea4ea7ed158d628f9c532204",
+    "Transport.cs": "53dfc1a0f5827bdf9d8acb1c162893eefdac9942afc20a5351e655e1a6516682",
+    "VehicleAudioSync.cs": "0dde22685339bf3f8de7da05282703ecf6cf9e2fbfa7adca5f9dc8bbe9ba11bd",
+    "WeatherSync.cs": "290f939bcf0ce4a70285050733b8a88da7869e8af080eb256bad940656170f24"
+  }
+}

@@ -1,0 +1,69 @@
+using System;using System.Linq;using GHPC;using GHPC.Player;using UnityEngine;
+namespace GhpcCoop {
+ public sealed partial class CoopLabMod {
+  bool damageProbeDone;
+  float verifyStart,verifyNext;bool verifyKilled,verifyLocalGuard;int verifySamples,verifyErrors,verifyDeadSamples,verifyFireSamples;
+  static int VerifyFlags(Unit u){return (u.Destroyed?1:0)|(u.Abandoned?2:0)|(u.CannotMove?4:0)|(u.CannotShoot?8:0)|(u.UnitIncapacitated?16:0);}
+  void RunNetworkVerification(){
+   if(!claimed||!Environment.GetCommandLineArgs().Contains("--coop-netverify"))return;
+   float now=Time.realtimeSinceStartup;if(verifyStart==0)verifyStart=now;float elapsed=now-verifyStart;
+   if(hosting&&!verifyKilled&&elapsed>15){
+    verifyKilled=true;var target=game.Vehicles.Values.FirstOrDefault(r=>r.Id!=game.LocalId&&r.Id!=remote&&!r.Unit.Neutralized&&r.Unit.Allegiance!=game.Vehicles[game.LocalId].Unit.Allegiance);
+    if(target!=null){
+     foreach(var item in target.Unit.GetComponentsInChildren<GHPC.Effects.FlammableItem>(false))if(item.CanIgnite)item.Ignite(true);
+     var part=target.Unit.GetComponentsInChildren<GHPC.Equipment.DestructibleComponent>(false).FirstOrDefault(x=>x.HealthPercent>.9f);if(part!=null)part.SetHealthPercent(.5f);
+     target.Unit.NotifyDestroyed();target.Unit.NotifyCannotMove();target.Unit.NotifyCannotShoot();target.Unit.NotifyIncapacitated();
+     GameBridge.Log("VERIFY host destroyed id="+target.Id+" type="+target.Unit.UniqueName+" flags="+VerifyFlags(target.Unit));
+    }else{verifyErrors++;GameBridge.Log("VERIFY FAIL no enemy target");}
+   }
+   if(!hosting&&!verifyLocalGuard&&elapsed>5){
+    verifyLocalGuard=true;var target=game.Vehicles.Values.FirstOrDefault(r=>r.Id!=game.LocalId&&r.Id!=remote&&!r.Unit.Neutralized&&r.Unit.Allegiance==game.Vehicles[game.LocalId].Unit.Allegiance);
+    if(target==null)target=game.Vehicles[game.LocalId];var part=target.Unit.GetComponentsInChildren<GHPC.Equipment.DestructibleComponent>(false).FirstOrDefault(x=>x.HealthPercent>.9f);
+    int flags=VerifyFlags(target.Unit);float hp=part==null?0:part.HealthPercent;if(part!=null)part.SetHealthPercent(0);target.Unit.NotifyDestroyed();
+    bool ok=flags==VerifyFlags(target.Unit)&&(part==null||part.HealthPercent==hp);if(!ok)verifyErrors++;GameBridge.Log("VERIFY guest independent damage "+(ok?"BLOCKED":"FAIL")+" id="+target.Id);
+   }
+   if(now<verifyNext)return;verifyNext=now+1;verifySamples++;int dead=0,fires=0,mismatch=0;
+   foreach(var r in game.Vehicles.Values){
+    if(hosting){if(r.Unit.Destroyed)dead++;fires+=game.Combat.Capture(r.Unit).Count(f=>f.Fire>0||f.Smoke>0);continue;}
+    if(r.Frames.Count==0){mismatch++;continue;}var p=r.Frames[r.Frames.Count-1];if(p.Dead)dead++;
+    var hp=r.Damage.Capture();if(VerifyFlags(r.Unit)!=p.Flags||hp.Length!=p.Health.Length||hp.Where((v,i)=>Math.Abs(v-p.Health[i])>.001f).Any()){mismatch++;GameBridge.Log("VERIFY mismatch id="+r.Id+" expected="+p.Flags+" actual="+VerifyFlags(r.Unit));}
+    fires+=game.Combat.VerifiedActiveVisuals(r.Id);
+   }
+   verifyErrors+=mismatch;if(dead>0)verifyDeadSamples++;if(fires>0)verifyFireSamples++;
+   var report="role="+(hosting?"host":"guest")+" elapsed="+elapsed.ToString("F1",System.Globalization.CultureInfo.InvariantCulture)+" samples="+verifySamples+" errors="+verifyErrors+" units="+game.Vehicles.Count+" dead="+dead+" activeFireVisuals="+fires+" deadSamples="+verifyDeadSamples+" fireSamples="+verifyFireSamples+" independentDamageBlocked="+verifyLocalGuard;
+   System.IO.File.WriteAllText(System.IO.Path.Combine(DataDir,"network-verification.txt"),report);if(verifySamples%10==0)GameBridge.Log("VERIFY "+report);
+  }
+  bool debugSkipWeather;string lastRenderCommand="";float nextRenderCommand;
+  void RunRenderCheck(){
+   if(!Environment.GetCommandLineArgs().Contains("--coop-rendercheck")||Time.realtimeSinceStartup<nextRenderCommand)return;nextRenderCommand=Time.realtimeSinceStartup+1;
+   var path=System.IO.Path.Combine(DataDir,"render-check.txt");if(!System.IO.File.Exists(path))return;string command=System.IO.File.ReadAllText(path).Trim();if(command==lastRenderCommand)return;lastRenderCommand=command;
+   if(command=="weather-off"){debugSkipWeather=true;weather.Dispose();}
+   if(command=="weather-on")debugSkipWeather=false;
+   if(command=="post-off"||command=="post-on"||command=="post-reset"){
+    var cam=GHPC.Camera.CameraManager.MainCam;var type=HarmonyLib.AccessTools.TypeByName("UnityEngine.Rendering.PostProcessing.PostProcessLayer");var layer=cam!=null&&type!=null?cam.GetComponent(type) as Behaviour:null;
+    if(layer!=null){if(command=="post-reset")HarmonyLib.AccessTools.Method(type,"ResetHistory").Invoke(layer,null);else layer.enabled=command=="post-on";}
+   }
+   GameBridge.Log("RENDER CHECK "+command+" cameraMode="+(GHPC.Camera.CameraManager.Instance!=null?GHPC.Camera.CameraManager.Instance.CurrentLightMode.ToString():"none"));
+  }
+  void RunDamageRegression(){
+   if(damageProbeDone||!Environment.GetCommandLineArgs().Contains("--coop-damagecheck"))return;
+   var player=PlayerInput.Instance;if(player==null||!player.IsInitialized||player.CurrentPlayerUnit==null||sceneReadyAt<=0||Time.realtimeSinceStartup<sceneReadyAt)return;
+   damageProbeDone=true;
+   try{
+    var bridge=new GameBridge();bridge.Capture();DamageSync.Loading=true;
+    var record=bridge.Vehicles.Values.First(x=>x.Id!=bridge.LocalId&&!x.Unit.Neutralized&&x.Damage.Capture().Any(h=>h>.9f));
+    var part=record.Unit.GetComponentsInChildren<GHPC.Equipment.DestructibleComponent>(true).First(x=>x.HealthPercent>.9f);
+    float before=part.HealthPercent;part.SetHealthPercent(0);record.Unit.NotifyDestroyed();
+    if(part.HealthPercent!=before||record.Unit.Destroyed)throw new Exception("Guest local damage was not blocked");
+    var snapshots=bridge.Snapshot();var pose=snapshots.First(x=>x.Id==record.Id);int index=Array.FindIndex(pose.Health,h=>h>.9f);pose.Health[index]=.5f;
+    bridge.BeginReplica();record.Damage.Apply(record.Unit,pose);
+    if(Math.Abs(record.Damage.Capture()[index]-.5f)>.001f)throw new Exception("Host component damage was not applied");
+    pose.Flags=31;pose.Dead=true;record.Damage.Apply(record.Unit,pose);
+    if(!record.Unit.Destroyed||!record.Unit.Abandoned||!record.Unit.CannotMove||!record.Unit.CannotShoot||!record.Unit.UnitIncapacitated)throw new Exception("Host destruction flags were not applied");
+    var objectives=ObjectiveSync.Capture();foreach(var obj in objectives)obj.Text="HOST LANGUAGE MUST NOT REPLACE LOCAL TEXT";ObjectiveSync.Apply(objectives);
+    var bytes=Wire.Encode(new Message{Kind=Kind.Snapshot,Poses=snapshots});
+    GameBridge.Log("DAMAGE REGRESSION PASS: guest damage blocked; host health and death applied; units="+snapshots.Length+" bytes="+bytes.Length);
+   }catch(Exception e){GameBridge.Log("DAMAGE REGRESSION FAIL "+e);}
+  }
+ }
+}
