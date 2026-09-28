@@ -1,7 +1,5 @@
 # GHPC Unofficial Co-op 0.9.9.10
 
-[Download](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.10) | [Source](versions/0.9.9.10/)
-
 Download the Setup ZIP, extract it, and run Install.cmd. All players need this version and matching supported game files. Up to four players including the host, one per eligible friendly vehicle.
 
 # 0.9.9.10 — Guest synchronization fixes
@@ -27,5 +25,4 @@ Due to a current technical limitation, the guidance wire for TOW missiles fired 
 
 ## Updating
 All players must update together. Protocol 25 is incompatible with earlier builds. Close the game before installing. Use the Setup ZIP for the updated launcher/scripts, or the existing updater for the DLL update.
-
 
