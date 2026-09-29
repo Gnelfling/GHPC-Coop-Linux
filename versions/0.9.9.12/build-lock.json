@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "version": "0.9.9.12",
+  "tools": [
+    {
+      "name": "compiler",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.compilers.toolset/4.8.0/microsoft.net.compilers.toolset.4.8.0.nupkg",
+      "sha256": "37333f4f1e2ce55e621355d6da651dc23d4cb5f94a8f76b9478816e87f110ad9"
+    },
+    {
+      "name": "framework",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netframework.referenceassemblies.net472/1.0.3/microsoft.netframework.referenceassemblies.net472.1.0.3.nupkg",
+      "sha256": "ffa0a5570a39f911399164d0581ffddef99b5e3dfbaa5f220e5ce22969bcf57c"
+    }
+  ],
+  "references": [
+    {
+      "name": "netstandard.dll",
+      "path": "GHPC_Data/Managed/netstandard.dll",
+      "sha256": "6ae62e082dc494a2433984177f60ca4db5fae69b1f360a8b33754172b310b8c5"
+    },
+    {
+      "name": "FMODUnity.dll",
+      "path": "GHPC_Data/Managed/FMODUnity.dll",
+      "sha256": "73dbab8cc0e898ee60d656dbdf35a1a9f64da0da72d612275b5958c9599ef616"
+    },
+    {
+      "name": "com.rlabrecque.steamworks.net.dll",
+      "path": "GHPC_Data/Managed/com.rlabrecque.steamworks.net.dll",
+      "sha256": "2c7daede6669c3f0061bd7025daca0d26e806d242c2c5ed81bd8cdf58a7c5616"
+    },
+    {
+      "name": "Eflatun.SceneReference.dll",
+      "path": "GHPC_Data/Managed/Eflatun.SceneReference.dll",
+      "sha256": "140785da4a19a665167e85441d298c7606fefe816d072dd6bbbe0d561786b133"
+    },
+    {
+      "name": "Assembly-CSharp.dll",
+      "path": "GHPC_Data/Managed/Assembly-CSharp.dll",
+      "sha256": "3321284967ec09971e0fb971abc5d9b8e881f9ec61cd85eb90c5edccd11d8490"
+    },
+    {
+      "name": "UnityEngine.CoreModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.CoreModule.dll",
+      "sha256": "80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e"
+    },
+    {
+      "name": "UnityEngine.ImageConversionModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.ImageConversionModule.dll",
+      "sha256": "5d6a3bc40d7e8395137cccca9733542916296ab3ced3081de14d335e3c6c606b"
+    },
+    {
+      "name": "UnityEngine.TextRenderingModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.TextRenderingModule.dll",
+      "sha256": "94fb324f4933d8e1b48607c11a280c2f8653495914d82f9b7c1eb11f55b7b51d"
+    },
+    {
+      "name": "UnityEngine.IMGUIModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.IMGUIModule.dll",
+      "sha256": "b423ff272e70533592cfa62fb87bd571a88ae5d539fd049288069392aaaddd78"
+    },
+    {
+      "name": "UnityEngine.InputLegacyModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.InputLegacyModule.dll",
+      "sha256": "cd0029606bd708b22424302afd798589a690231c2ac21f299d649bc6e474e375"
+    },
+    {
+      "name": "UnityEngine.PhysicsModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.PhysicsModule.dll",
+      "sha256": "dd5c5e60120707036263a77443ab29a21cde540cba927090437b5ec1a3cfb497"
+    },
+    {
+      "name": "UnityEngine.ParticleSystemModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.ParticleSystemModule.dll",
+      "sha256": "030a401e86e075fbd30b02eab4803adcd90413b2d49b3634c8097fd626dea0da"
+    },
+    {
+      "name": "UnityEngine.AudioModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.AudioModule.dll",
+      "sha256": "ed9a94a6616134863df45b092184ce3e109bcea37da8b96ac7be441c6b0b1d88"
+    },
+    {
+      "name": "Unity.TextMeshPro.dll",
+      "path": "GHPC_Data/Managed/Unity.TextMeshPro.dll",
+      "sha256": "605adaa1dfb18a1328cca8caa4a6fded7902fd079e0ae5027afdb339e5c8aabb"
+    },
+    {
+      "name": "UnityEngine.UI.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.UI.dll",
+      "sha256": "9bd83593f16495563351fa41252c81e98bc93394d052255ccbbe56e9aab3497f"
+    },
+    {
+      "name": "UnityEngine.UIModule.dll",
+      "path": "GHPC_Data/Managed/UnityEngine.UIModule.dll",
+      "sha256": "f3e21499db60bd6a7569f2209d304828eb6778e1143b72a71ad72b4a61848097"
+    },
+    {
+      "name": "MelonLoader.dll",
+      "path": "MelonLoader/net35/MelonLoader.dll",
+      "sha256": "3fab01593d3edaf450f4bddc6fc28134a9535995f28e9b255983b3d1fe925e35"
+    },
+    {
+      "name": "0Harmony.dll",
+      "path": "MelonLoader/net35/0Harmony.dll",
+      "sha256": "93c0a24085babf49d8478b28b8271217a76dd02a5db68794e222baaa3ce6f2fb"
+    }
+  ],
+  "sources": [
+    "AmmoSync.cs",
+    "CombatVisuals.cs",
+    "CoopLabMod.cs",
+    "CoopMenu.cs",
+    "DamageRegression.cs",
+    "DamageSync.cs",
+    "EquipmentSync.cs",
+    "GameBridge.cs",
+    "ILink.cs",
+    "MissionChoices.cs",
+    "MissionSweep.cs",
+    "MultiCoop.cs",
+    "ObjectiveSync.cs",
+    "Protocol.cs",
+    "RenderingSync.cs",
+    "ReplicaCrewAudio.cs",
+    "RoomJoin.cs",
+    "RoomSeats.cs",
+    "SteamLink.cs",
+    "SteamMenu.cs",
+    "SteamRoomPolicy.cs",
+    "SupportRegression.cs",
+    "SupportSync.cs",
+    "TracerSync.cs",
+    "VehicleAudioSync.cs",
+    "WeatherSync.cs",
+    "Nameplates.cs",
+    "ShotInputLatch.cs",
+    "PeerIsolation.cs",
+    "DirectConnection.cs",
+    "Transport.cs",
+    "MultiRoom.cs",
+    "ShotAudit.cs",
+    "ReloadPolicy.cs",
+    "MissionConfiguration.cs",
+    "SessionPause.cs",
+    "InfantrySync.cs",
+    "InfantryHealth.cs",
+    "HelicopterSync.cs",
+    "InfantryMotion.cs",
+    "GameBridge.Input.cs",
+    "GameBridge.Replication.cs",
+    "CoopLabMod.TestSetup.cs",
+    "CoopLabMod.Input.cs",
+    "AarView.cs",
+    "TracerSync.Visuals.cs"
+  ],
+  "resource": {
+    "path": "assets/menu-hero.png",
+    "sha256": "aff6624cf82b6ebfa337ac4c647952e48ccb315212105d11e6e70c022a149b44"
+  },
+  "expectedDllSha256": "95414231D9FC7A1829AB1A62EAD0D8E003286B59C3D2DBABCB19CF1800110BC1"
+}

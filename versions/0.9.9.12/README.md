@@ -1,3 +1,7 @@
+# GHPC Unofficial Co-op 0.9.9.12
+
+Download the Setup ZIP, extract it and run Install.cmd. All players need matching builds. Up to four players including the host, one per eligible friendly vehicle.
+
 # 0.9.9.12 — Native TOW wire visuals and synchronization safeguards
 
 ## Changes since 0.9.9.10

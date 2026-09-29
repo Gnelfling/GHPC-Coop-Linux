@@ -1,0 +1,526 @@
+// Deterministic fake Steam API for testing the actual SteamLink adapter. No Steam network used.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+
+namespace Steamworks
+{
+    public enum EResult
+    {
+        k_EResultOK,
+        k_EResultFail
+    }
+
+    public enum ELobbyType
+    {
+        k_ELobbyTypePrivate,
+        k_ELobbyTypeFriendsOnly
+    }
+
+    public enum ESteamNetworkingConnectionState
+    {
+        k_ESteamNetworkingConnectionState_Connecting,
+        k_ESteamNetworkingConnectionState_Connected,
+        k_ESteamNetworkingConnectionState_ClosedByPeer,
+        k_ESteamNetworkingConnectionState_ProblemDetectedLocally
+    }
+
+    public enum ESteamNetworkingConfigValue
+    {
+        k_ESteamNetworkingConfig_P2P_Transport_ICE_Enable
+    }
+
+    public enum ESteamNetworkingConfigDataType
+    {
+        k_ESteamNetworkingConfig_Int32
+    }
+
+    public struct SteamNetworkingConfigValue_t
+    {
+        public ESteamNetworkingConfigValue m_eValue;
+        public ESteamNetworkingConfigDataType m_eDataType;
+        public OptionValue m_val;
+        public struct OptionValue
+        {
+            public int m_int32;
+        }
+    }
+
+    public struct CSteamID
+    {
+        public ulong m_SteamID;
+        public CSteamID(ulong n)
+        {
+            m_SteamID = n;
+        }
+
+        public bool IsLobby()
+        {
+            return m_SteamID >= 100;
+        }
+
+        public override string ToString()
+        {
+            return m_SteamID.ToString();
+        }
+
+        public static bool operator ==(CSteamID a, CSteamID b)
+        {
+            return a.m_SteamID == b.m_SteamID;
+        }
+
+        public static bool operator !=(CSteamID a, CSteamID b)
+        {
+            return !(a == b);
+        }
+
+        public override bool Equals(object o)
+        {
+            return o is CSteamID && this == (CSteamID)o;
+        }
+
+        public override int GetHashCode()
+        {
+            return m_SteamID.GetHashCode();
+        }
+    }
+
+    public struct HSteamListenSocket
+    {
+        public uint m_HSteamListenSocket;
+        public static bool operator ==(HSteamListenSocket a, HSteamListenSocket b)
+        {
+            return a.m_HSteamListenSocket == b.m_HSteamListenSocket;
+        }
+
+        public static bool operator !=(HSteamListenSocket a, HSteamListenSocket b)
+        {
+            return !(a == b);
+        }
+
+        public override bool Equals(object o)
+        {
+            return o is HSteamListenSocket && this == (HSteamListenSocket)o;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)m_HSteamListenSocket;
+        }
+    }
+
+    public struct HSteamNetConnection
+    {
+        public uint m_HSteamNetConnection;
+        public static bool operator ==(HSteamNetConnection a, HSteamNetConnection b)
+        {
+            return a.m_HSteamNetConnection == b.m_HSteamNetConnection;
+        }
+
+        public static bool operator !=(HSteamNetConnection a, HSteamNetConnection b)
+        {
+            return !(a == b);
+        }
+
+        public override bool Equals(object o)
+        {
+            return o is HSteamNetConnection && this == (HSteamNetConnection)o;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)m_HSteamNetConnection;
+        }
+    }
+
+    public struct SteamNetworkingIdentity
+    {
+        public CSteamID id;
+        public void SetSteamID(CSteamID x)
+        {
+            id = x;
+        }
+
+        public CSteamID GetSteamID()
+        {
+            return id;
+        }
+    }
+
+    public struct SteamNetConnectionInfo_t
+    {
+        public HSteamListenSocket m_hListenSocket;
+        public ESteamNetworkingConnectionState m_eState;
+        public SteamNetworkingIdentity m_identityRemote;
+        public int m_nFlags;
+        public string m_szConnectionDescription, m_szEndDebug;
+    }
+
+    public struct SteamNetConnectionStatusChangedCallback_t
+    {
+        public HSteamNetConnection m_hConn;
+        public SteamNetConnectionInfo_t m_info;
+    }
+
+    public struct LobbyCreated_t
+    {
+        public EResult m_eResult;
+        public ulong m_ulSteamIDLobby;
+    }
+
+    public struct LobbyEnter_t
+    {
+        public uint m_EChatRoomEnterResponse;
+        public ulong m_ulSteamIDLobby;
+    }
+
+    public struct Handle
+    {
+        public int m_HSteamUser;
+    }
+
+    public struct AppID
+    {
+        public int m_AppId;
+    }
+
+    public static class SteamAPI
+    {
+        public static Handle GetHSteamUser()
+        {
+            return new Handle
+            {
+                m_HSteamUser = 1
+            };
+        }
+    }
+
+    public static class SteamUser
+    {
+        public static bool BLoggedOn()
+        {
+            return true;
+        }
+
+        public static CSteamID GetSteamID()
+        {
+            return new CSteamID(1);
+        }
+    }
+
+    public static class SteamUtils
+    {
+        public static AppID GetAppID()
+        {
+            return new AppID
+            {
+                m_AppId = 1705180
+            };
+        }
+    }
+
+    public static class SteamNetworkingUtils
+    {
+        public static void InitRelayNetworkAccess()
+        {
+        }
+    }
+
+    public static class SteamFriends
+    {
+        public static void ActivateGameOverlayInviteDialog(CSteamID x)
+        {
+        }
+    }
+
+    public class Callback<T> : IDisposable
+    {
+        public static Action<T> Handler;
+        public static Callback<T> Create(Action<T> a)
+        {
+            Handler = a;
+            return new Callback<T>();
+        }
+
+        public void Dispose()
+        {
+            Handler = null;
+        }
+    }
+
+    public class CallResult<T> : IDisposable
+    {
+        Action<T, bool> action;
+        bool active;
+        public static CallResult<T> Create(Action<T, bool> a)
+        {
+            return new CallResult<T>
+            {
+                action = a
+            };
+        }
+
+        public void Set(object result)
+        {
+            active = false;
+            action((T)result, false);
+        }
+
+        public bool IsActive()
+        {
+            return active;
+        }
+
+        public void Dispose()
+        {
+        }
+    }
+
+    public static class SteamMatchmaking
+    {
+        public static int Capacity;
+        public static List<ulong> Members = new List<ulong>
+        {
+            1,
+            2,
+            3,
+            4
+        };
+        public static Dictionary<string, string> Data = new Dictionary<string, string>();
+        public static object CreateLobby(ELobbyType t, int n)
+        {
+            Capacity = n;
+            return new LobbyCreated_t
+            {
+                m_eResult = EResult.k_EResultOK,
+                m_ulSteamIDLobby = 100
+            };
+        }
+
+        public static object JoinLobby(CSteamID id)
+        {
+            return new LobbyEnter_t
+            {
+                m_EChatRoomEnterResponse = 1,
+                m_ulSteamIDLobby = id.m_SteamID
+            };
+        }
+
+        public static void LeaveLobby(CSteamID l)
+        {
+        }
+
+        public static bool SetLobbyData(CSteamID l, string k, string v)
+        {
+            Data[k] = v;
+            return true;
+        }
+
+        public static string GetLobbyData(CSteamID l, string k)
+        {
+            return Data.ContainsKey(k) ? Data[k] : "";
+        }
+
+        public static CSteamID GetLobbyOwner(CSteamID l)
+        {
+            return new CSteamID(1);
+        }
+
+        public static int GetNumLobbyMembers(CSteamID l)
+        {
+            return Members.Count;
+        }
+
+        public static CSteamID GetLobbyMemberByIndex(CSteamID l, int i)
+        {
+            return new CSteamID(Members[i]);
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct SteamNetworkingMessage_t
+    {
+        public SteamNetworkingIdentity m_identityPeer;
+        public int m_cbSize;
+        public IntPtr m_pData;
+        public static int Released;
+        public static void Release(IntPtr p)
+        {
+            var m = (SteamNetworkingMessage_t)Marshal.PtrToStructure(p, typeof(SteamNetworkingMessage_t));
+            Marshal.FreeHGlobal(m.m_pData);
+            Marshal.FreeHGlobal(p);
+            Released++;
+        }
+    }
+
+    public static class SteamNetworkingSockets
+    {
+        public static List<uint> Closed = new List<uint>();
+        public static Dictionary<uint, byte[]> Sent = new Dictionary<uint, byte[]>();
+        public static Dictionary<uint, Queue<IntPtr>> Incoming = new Dictionary<uint, Queue<IntPtr>>();
+        public static bool RelayOnly;
+        public static HSteamListenSocket CreateListenSocketP2P(int p, int n, SteamNetworkingConfigValue_t[] o)
+        {
+            RelayOnly = n == 1 && o[0].m_val.m_int32 == 0;
+            return new HSteamListenSocket
+            {
+                m_HSteamListenSocket = 7
+            };
+        }
+
+        public static HSteamNetConnection ConnectP2P(ref SteamNetworkingIdentity i, int p, int n, SteamNetworkingConfigValue_t[] o)
+        {
+            return new HSteamNetConnection
+            {
+                m_HSteamNetConnection = 99
+            };
+        }
+
+        public static EResult AcceptConnection(HSteamNetConnection c)
+        {
+            return EResult.k_EResultOK;
+        }
+
+        public static void CloseConnection(HSteamNetConnection c, int n, string s, bool linger)
+        {
+            Closed.Add(c.m_HSteamNetConnection);
+        }
+
+        public static void CloseListenSocket(HSteamListenSocket s)
+        {
+        }
+
+        public static EResult SendMessageToConnection(HSteamNetConnection c, IntPtr p, uint n, int flags, out long number)
+        {
+            var b = new byte[n];
+            Marshal.Copy(p, b, 0, (int)n);
+            Sent[c.m_HSteamNetConnection] = b;
+            number = 1;
+            return EResult.k_EResultOK;
+        }
+
+        public static int ReceiveMessagesOnConnection(HSteamNetConnection c, IntPtr[] p, int n)
+        {
+            Queue<IntPtr> q;
+            if (!Incoming.TryGetValue(c.m_HSteamNetConnection, out q) || q.Count == 0)
+                return 0;
+            p[0] = q.Dequeue();
+            return 1;
+        }
+
+        public static void Inject(uint conn, ulong identity, byte[] data)
+        {
+            var p = Marshal.AllocHGlobal(data.Length);
+            Marshal.Copy(data, 0, p, data.Length);
+            var m = new SteamNetworkingMessage_t
+            {
+                m_identityPeer = new SteamNetworkingIdentity
+                {
+                    id = new CSteamID(identity)
+                },
+                m_cbSize = data.Length,
+                m_pData = p
+            };
+            var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(SteamNetworkingMessage_t)));
+            Marshal.StructureToPtr(m, ptr, false);
+            if (!Incoming.ContainsKey(conn))
+                Incoming[conn] = new Queue<IntPtr>();
+            Incoming[conn].Enqueue(ptr);
+        }
+    }
+}
+
+namespace GhpcCoop
+{
+    public static class GameBridge
+    {
+        public static void Log(string s)
+        {
+            Console.WriteLine(s);
+        }
+    }
+
+    public static class SteamAdapterTests
+    {
+        static int checks;
+        static void Check(bool v, string n)
+        {
+            if (!v)
+                throw new Exception(n);
+            checks++;
+            Console.WriteLine("PASS " + n);
+        }
+
+        static void Event(uint c, ulong id, Steamworks.ESteamNetworkingConnectionState state)
+        {
+            Steamworks.Callback<Steamworks.SteamNetConnectionStatusChangedCallback_t>.Handler(new Steamworks.SteamNetConnectionStatusChangedCallback_t { m_hConn = new Steamworks.HSteamNetConnection { m_HSteamNetConnection = c },
+                m_info = new Steamworks.SteamNetConnectionInfo_t { m_hListenSocket = new Steamworks.HSteamListenSocket { m_HSteamListenSocket = 7 },
+                m_eState = state,
+                m_identityRemote = new Steamworks.SteamNetworkingIdentity { id = new Steamworks.CSteamID(id) },
+                m_nFlags = 16,
+                m_szConnectionDescription = "fixture SDR" } });
+        }
+
+        public static void Main()
+        {
+            using (var host = new SteamLink(new string ('a', 32), "build"))
+            {
+                host.SetCapacity(4);
+                host.Host(null, 0);
+                Check(Steamworks.SteamMatchmaking.Capacity == 4, "lobby has four seats");
+                Check(Steamworks.SteamNetworkingSockets.RelayOnly, "direct ICE disabled on socket");
+                var links = new List<ILink>();
+                for (uint i = 0; i < 3; i++)
+                {
+                    Event(i + 10, i + 2, Steamworks.ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_Connecting);
+                    var p = host.Take();
+                    Check(p != null, "independent accepted peer " + i);
+                    Event(i + 10, i + 2, Steamworks.ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_Connected);
+                    Check(p.Connected, "connected peer " + i);
+                    links.Add(p);
+                }
+
+                Event(20, 5, Steamworks.ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_Connecting);
+                Check(host.Take() == null && Steamworks.SteamNetworkingSockets.Closed.Contains(20), "fourth guest refused");
+                Event(21, 2, Steamworks.ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_Connecting);
+                Check(host.Take() == null, "duplicate identity refused");
+                for (int i = 0; i < 3; i++)
+                {
+                    links[i].Send(new Message { Kind = Kind.Ping, Sequence = i + 1 });
+                    Check(Wire.Decode(Steamworks.SteamNetworkingSockets.Sent[(uint)i + 10]).Sequence == i + 1, "outgoing route " + i);
+                    Steamworks.SteamNetworkingSockets.Inject((uint)i + 10, (ulong)i + 2, Wire.Encode(new Message { Kind = Kind.Ping, Sequence = 10 + i }));
+                    Message m;
+                    Check(links[i].TryRead(out m) && m.Sequence == 10 + i, "incoming route " + i);
+                }
+
+                Steamworks.SteamNetworkingSockets.Inject(10, 999, Wire.Encode(new Message { Kind = Kind.Ping }));
+                bool rejected = false;
+                try
+                {
+                    Message m;
+                    links[0].TryRead(out m);
+                }
+                catch (System.IO.IOException)
+                {
+                    rejected = true;
+                }
+
+                Check(rejected && Steamworks.SteamNetworkingMessage_t.Released == 4, "wrong identity rejected and native message released");
+                Event(11, 3, Steamworks.ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_ClosedByPeer);
+                host.Pump();
+                Check(!links[1].Connected && links[0].Connected && links[2].Connected && host.Error == "", "one departure preserves room");
+                Event(22, 3, Steamworks.ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_Connecting);
+                Check(host.Take() != null, "departed identity reconnects");
+                Steamworks.SteamMatchmaking.Members.Remove(4);
+                host.Pump();
+                Check(!links[2].Connected && links[0].Connected, "lobby departure clears only its connection");
+            }
+
+            Check(Steamworks.SteamNetworkingSockets.Closed.Contains(10) &&
+                Steamworks.SteamNetworkingSockets.Closed.Contains(22),
+                "dispose closes remaining peers");
+            Console.WriteLine("ALL " + checks + " STEAM ADAPTER FIXTURE CHECKS PASSED; not a live Steam test.");
+        }
+    }
+}

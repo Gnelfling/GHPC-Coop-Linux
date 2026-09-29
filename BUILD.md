@@ -1,6 +1,3 @@
-# Build 0.9.9.9
+# Build 0.9.9.12
 
-Use [versions/0.9.9.9/REPRODUCIBLE.md](versions/0.9.9.9/REPRODUCIBLE.md) and its pinned build-lock.json. Proprietary game assemblies are not distributed. The current release source is separate from historical legacy/0.9.8.
-
-
-
+See [reproducible build instructions](versions/0.9.9.12/REPRODUCIBLE.md) and the pinned build-lock.json. Proprietary game assemblies are not distributed.
