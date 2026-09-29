@@ -1,1 +1,0 @@
-Release validation: 396 automated mod checks, 28 updater fixture checks, and launcher installation fixture checks passed. A second deterministic build matched the pinned DLL hash. Native gameplay coverage and limitations are described in CHANGELOG.md.
