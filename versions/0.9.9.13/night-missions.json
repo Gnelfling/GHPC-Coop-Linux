@@ -1,0 +1,14 @@
+[
+  {
+    "Players": 3,
+    "Mission": "GT02_Slow_Raid",
+    "Faction": "Red",
+    "Detail": "units=21 capacity=3 roster=66A88C06B74583B1AB11E25A95298110EDF4783427B6B99D593A14CC4F0BF9C9; guest join NOT tested"
+  },
+  {
+    "Players": 4,
+    "Mission": "PA_under_pressure",
+    "Faction": "Blue",
+    "Detail": "units=19 capacity=4 roster=3DC1CC0FDA46814332DE43E8F2D46F01CA76614016F8A36AFFDA20B138D5FE67; guest join NOT tested"
+  }
+]
