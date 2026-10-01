@@ -1,14 +1,11 @@
-# 0.9.9.15 — PvE network scheduling, recovery and diagnostics
+# 0.9.9.16 — PvE discovery allocation and identity-cache improvements
 
-All players must update. Wire protocol 26 is incompatible with 0.9.9.14 (protocol 25). PvP is separate.
+- Reuse infantry emplacement and aircraft identity hashes only while their full identity inputs remain unchanged; recompute after changes.
+- Reuse aircraft discovery scratch containers and clear cached entries for destroyed/unloaded objects and session teardown.
+- Preserve discovery coverage and frequency, including inactive runtime units. Damage, roster handling and event ordering are unchanged.
 
-- Keep snapshot scheduling near 20 Hz across rendering frame rates; skip missed slots instead of sending catch-up bursts.
-- Bound Steam send retries per update, renew host/guest send budgets, and coalesce adjacent unsent snapshots while preserving event and recovery-message order.
-- Validate and recover authoritative vehicle baselines; preserve destroyed-vehicle records and reconcile supported roster changes.
-- Reduce repeated damage/visual/receive allocations and harden cleanup and AAR presentation retry paths.
-- Add separate managed-send and Steam-native queue diagnostics, including ping, estimated pre-transmission wait and pending/unacknowledged bytes.
-- Includes startup validation and compatibility improvements. Use Steam and a valid GHPC license.
+Includes the 0.9.9.15 network scheduling, resynchronization and Steam queue diagnostics improvements. Wire protocol remains 26 (incompatible with 0.9.9.14/protocol 25). Update host and guests together for consistent diagnostics. PvP is not included.
 
-Validation: pinned build and automated fixtures pass. Scheduling tests are synthetic, not measured internet latency. No live two-PC verification of this release has been completed. The reported 250–500 ms input delay is NOT confirmed resolved. Guest adaptive presentation buffering and Steam/network transit still contribute latency. Native queue samples every five seconds can miss shorter spikes.
+Validation: pinned build and regression fixtures passed. Actual scan-time savings and remote input latency have NOT been measured in-game for this release. Global searches remain; this does not claim to eliminate the reported scan stalls or 250–500 ms input delay.
 
-Close GHPC before updating. Existing compatible managers can install the DLL update; every host and guest needs this version. For a fresh installation extract the Setup ZIP and run Install.cmd. To report lag, provide Bin/MelonLoader/Latest.log from both PCs after reproduction and before restarting. Review logs for personal information before sharing.
+Close GHPC and update through the existing compatible manager, or extract the Setup ZIP and run Install.cmd. Use Steam and a valid GHPC license. For lag reports send Bin/MelonLoader/Latest.log from both host and guest after reproduction and before restarting; remove personal information before sharing.
