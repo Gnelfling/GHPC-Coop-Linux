@@ -1,0 +1,379 @@
+Built SHA-256: 07536c4501417ae5a00e7f0b7faa3413a2dd58eca2215ce2ad18e642a7639734
+PASS aircraft position damage roundtrip
+PASS aircraft crash point roundtrip
+PASS empty aircraft roster removal message
+PASS unauthenticated aircraft injection rejected
+PASS invalid aircraft crash flag rejected
+PASS transfer validation leaves reservation unchanged
+PASS cross platoon switching preserves room capacity
+PASS waiting host transfers to another friendly platoon
+PASS guest reservation after host transfer
+PASS guest cannot steal transferred host vehicle
+PASS guest transfers to free friendly vehicle
+PASS enemy transfer remains blocked
+PASS switching cannot add extra players
+PASS cross platoon room capped at four
+PASS same platoon preferred
+PASS second guest uses other platoon
+PASS third guest uses other platoon
+PASS fifth player rejected despite spare vehicle
+PASS host cannot take other platoon guest vehicle
+PASS guest transfers after assigned vehicle loss
+PASS disconnect releases cross platoon reservation
+PASS cross platoon pool excludes enemy
+PASS join survives day night change during room lifetime
+PASS join survives night day change
+PASS different mission still rejected
+PASS different terrain still rejected
+PASS invalid environment suffix rejected
+PASS extra world fields rejected
+PASS missing world rejected
+PASS fixed guest echoes validated token to already-running host
+PASS Steam third guest admitted
+PASS Steam fifth player rejected
+PASS Steam duplicate identity rejected
+PASS Steam two-vehicle room limited
+PASS Steam nonmember rejected multi
+PASS Steam freed slot reusable
+PASS Legacy Steam room rejected
+PASS intact partial and fully scorched appearance round trip
+PASS nonfinite scorch rejected
+PASS excess scorch rejected
+PASS platoon capacity 2
+PASS distinct loading reservation 2/1
+PASS full room refuses extra guest 2
+PASS guest cannot take host vehicle 2
+PASS host cannot take guest vehicle 2
+PASS cross platoon vehicle refused 2
+PASS departed seat reused 2
+PASS platoon capacity 3
+PASS distinct loading reservation 3/1
+PASS distinct loading reservation 3/2
+PASS full room refuses extra guest 3
+PASS guest cannot take host vehicle 3
+PASS host cannot take guest vehicle 3
+PASS cross platoon vehicle refused 3
+PASS departed seat reused 3
+PASS platoon capacity 4
+PASS distinct loading reservation 4/1
+PASS distinct loading reservation 4/2
+PASS distinct loading reservation 4/3
+PASS full room refuses extra guest 4
+PASS guest cannot take host vehicle 4
+PASS host cannot take guest vehicle 4
+PASS cross platoon vehicle refused 4
+PASS departed seat reused 4
+PASS platoon capacity 5
+PASS distinct loading reservation 5/1
+PASS distinct loading reservation 5/2
+PASS distinct loading reservation 5/3
+PASS full room refuses extra guest 5
+PASS guest cannot take host vehicle 5
+PASS host cannot take guest vehicle 5
+PASS cross platoon vehicle refused 5
+PASS departed seat reused 5
+PASS accept concurrent guest
+PASS accept concurrent guest
+PASS accept concurrent guest
+PASS independent guest input stream 0
+PASS independent guest input stream 1
+PASS independent guest input stream 2
+PASS reply routed to correct guest 0
+PASS reply routed to correct guest 1
+PASS reply routed to correct guest 2
+PASS one guest departure preserves other connections
+PASS map support request round trip
+PASS nonfinite support target rejected
+PASS unknown support munition rejected
+PASS battery availability and timing round trip
+PASS duplicate battery rejected
+PASS oversized battery list rejected
+PASS host tracer path round trip
+PASS nonfinite tracer endpoint rejected
+PASS zero tracer duration rejected
+PASS duplicate tracer ID rejected
+PASS oversized tracer batch rejected
+PASS support blocked before handshake
+PASS support blocked before vehicle claim
+PASS support from unowned vehicle blocked
+PASS owned support request accepted
+PASS duplicate support request blocked
+PASS Steam nonmember connection rejected
+PASS Steam self connection rejected
+PASS Steam missing identity rejected
+PASS Steam room member accepted
+PASS Steam second connection rejected
+PASS Steam repeated callback preserves connection
+PASS Steam host migration ends original session
+PASS Steam matching room metadata accepted
+PASS Steam incompatible metadata rejected
+PASS intact damaged and destroyed components round trip
+PASS NaN component health rejected
+PASS negative component health rejected
+PASS excess component health rejected
+PASS oversized damage layout rejected
+PASS engine load and track audio round trip
+PASS nonfinite engine audio rejected
+PASS negative engine audio rejected
+PASS incomplete audio packet rejected
+PASS objective text completion and visibility round trip
+PASS duplicate objective ID rejected
+PASS unknown objective state rejected
+PASS oversized objective text rejected
+PASS oversized objective list rejected
+PASS ammo and reload progress round trip
+PASS ballistic ammo survives packet round trip
+PASS empty breech retains ballistic ammo
+PASS invalid reload time rejected
+PASS negative ammo rejected
+PASS smoke lights and materials round trip
+PASS negative smoke counter rejected
+PASS oversized smoke array rejected
+PASS invalid material index rejected
+PASS oversized lamp array rejected
+PASS unauthenticated transfer blocked
+PASS guest cannot take host vehicle
+PASS guest cannot take unlisted vehicle
+PASS host cannot take occupied or unlisted vehicle
+PASS guest transfer assigns free AI vehicle
+PASS old vehicle input rejected after transfer
+PASS new vehicle input accepted after transfer
+PASS released guest vehicle available to host
+PASS released host vehicle available to guest
+PASS simultaneous requests cannot share one vehicle
+PASS vehicle ownership round trip
+PASS sky clock preserves double precision and daytime
+PASS nonfinite sky time rejected
+PASS nonfinite sky rate rejected
+PASS snapshot round trip
+PASS truncated packet
+PASS protocol mismatch
+PASS NaN input
+PASS out-of-range steering
+PASS zero aim vector rejected
+PASS unknown weapon role rejected
+PASS infinite range rejected
+PASS wheel visual rotation round trip
+PASS nonfinite wheel rotation rejected
+PASS oversized wheel layout rejected
+PASS detached turret world position round trip
+PASS invalid debris rotation rejected
+PASS oversized debris layout rejected
+PASS combat state and turret rotation round trip
+PASS timestamp tracks and separate weapon counters round trip
+PASS NaN track speed rejected
+PASS negative weapon counter rejected
+PASS invalid snapshot timestamp rejected
+PASS NaN turret rotation rejected
+PASS duplicate snapshot IDs
+PASS oversized frame rejected before allocation
+PASS impact and persistent fire state round trip
+PASS invalid fire magnitude rejected
+PASS invalid impact rotation rejected
+PASS duplicate fire identity rejected
+PASS weather rain and cloud configuration round trip
+PASS NaN weather rejected
+PASS incomplete weather state rejected
+PASS room code required before mission disclosure
+PASS room rejects incompatible game build
+PASS main menu join returns mission before vehicle handshake
+PASS authenticated loading heartbeat
+PASS loading guest cannot claim before roster verification
+PASS loaded guest completes normal roster verification
+PASS loaded guest claims offered platoon vehicle
+PASS disconnect clears room authentication
+PASS claim before handshake
+PASS wrong room code
+PASS different mission
+PASS different game build
+PASS different roster waits for gated baseline reconciliation
+PASS valid handshake
+PASS host vehicle protected
+PASS unlisted vehicle protected
+PASS guest gets different tank
+PASS input ownership enforced
+PASS owned input accepted by protocol only
+PASS stale input rejected
+PASS disconnect releases reservation
+PASS real TCP main menu mission offer
+PASS real TCP loading heartbeat
+PASS real TCP loopback handshake
+PASS real TCP separate vehicle claim
+PASS 100 real TCP snapshots in order
+PASS real TCP vehicle transfer
+PASS rejected occupied vehicle keeps connection alive
+PASS disconnect detected
+PASS direct IP empty code mission join
+PASS direct IP empty code handshake
+PASS direct IP separate vehicle claim
+ALL 207 PASSED. This verifies protocol/transport, not playable co-op.
+PASS logged-in app context without entitlement is rejected
+PASS valid current-app entitlement is accepted
+STEAM room ready capacity=4
+PASS lobby has four seats
+PASS listed room uses public Steam visibility
+PASS room advertises name mission and exact mod identity
+PASS lobby display text is bounded and strips markup
+PASS direct ICE disabled on socket
+PASS independent accepted peer 0
+STEAM connected relayed=True flags=16 route=fixture SDR
+PASS connected peer 0
+PASS independent accepted peer 1
+STEAM connected relayed=True flags=16 route=fixture SDR
+PASS connected peer 1
+PASS independent accepted peer 2
+STEAM connected relayed=True flags=16 route=fixture SDR
+PASS connected peer 2
+PASS host room replenishes all three peer budgets across eighty updates
+PASS temporary send saturation keeps connection alive
+PASS buffered messages retry in order
+PASS retried messages are not duplicated
+PASS shared broadcast preserves ordering for every delayed peer
+PASS send queues do not mutate shared bytes
+PASS all peers receive identical broadcast bytes
+PASS recovery flush is bounded to sixteen packets per pump
+PASS receive path cannot bypass the frame send budget
+PASS bounded draining preserves all queued events in order
+PASS adjacent stale snapshots coalesce without crossing an impact event
+PASS saturation does not repeatedly call Steam during the same pump
+PASS congestion recovery sends only the newest adjacent state
+PASS budget exhaustion retains latest state for the next pump
+PASS baseline and confirmation remain ordered coalescing barriers
+PASS fourth guest refused
+PASS duplicate identity refused
+PASS outgoing route 0
+PASS incoming route 0
+PASS outgoing route 1
+PASS incoming route 1
+PASS outgoing route 2
+PASS incoming route 2
+PASS wrong identity rejected and native message released
+Steam connection closed: 
+PASS one departure preserves room
+PASS departed identity reconnects
+PASS lobby departure clears only its connection
+PASS dispose closes remaining peers
+STEAM connected relayed=False flags=0 route=
+STEAM NATIVE conn=99 pingMs=82 queueEstimateMs=125.50 pendingReliableBytes=4096 pendingUnreliableBytes=128 unackedReliableBytes=2048 sendRateBytesPerSec=100000
+PASS guest UI ping uses measured Steam RTT
+PASS native queue estimate converts microseconds separately from RTT and unacked bytes
+STEAM NATIVE conn=99 unavailable=k_EResultFail
+PASS unavailable diagnostics do not report a healthy zero or disconnect
+STEAM NATIVE conn=99 unavailable=EntryPointNotFoundException
+PASS missing native diagnostic entry point preserves the connection
+PASS guest room replenishes peer send budget beyond the first sixteen packets
+STEAM room ready capacity=4
+PASS test isolation overrides public room selection
+PASS direct room-ID join also rejects a different mod revision
+ALL 48 STEAM ADAPTER FIXTURE CHECKS PASSED; not a live Steam test.
+PASS baseline wire roundtrip
+PASS baseline carries damage ammo debris equipment and position
+PASS uninitialized peer cannot drive
+PASS baseline suspends input
+PASS ack cannot steal host seat
+PASS wrong revision rejected
+PASS late ack cannot unlock replacement baseline
+PASS recovery deadline bounded
+PASS exact ack completes recovery
+PASS duplicate ack does not complete twice
+PASS current baseline resumes owned input
+PASS old roster input rejected
+PASS old input rejected even when roster revision is unchanged
+PASS input transaction survives wire roundtrip
+PASS one peer recovery does not suspend another peer
+PASS baseline preserves exact host identities
+PASS guest-only vehicle excluded without mutating discovery
+PASS late native spawn waits without partial plan
+PASS late native spawn completes matching plan
+PASS same ID different topology rejected
+PASS late component mismatch rejects entire plan
+PASS baseline cannot reassign local ownership
+PASS missing owned vehicle rejected
+PASS duplicate identities rejected
+PASS ordinary snapshot cannot add unapproved identity
+PASS rejected snapshot preserves previous state
+PASS reinforcement discovery preserves existing seat
+PASS expanded roster still protects host ownership
+PASS 28 resynchronization checks; fixtures, not Unity gameplay
+PASS 8 snapshot preflight checks
+PASS cleanup continues after a native-object failure
+CADENCE fps=30 old=150 new=200 over 10 seconds
+CADENCE fps=45 old=150 new=200 over 10 seconds
+CADENCE fps=60 old=175 new=200 over 10 seconds
+CADENCE fps=144 old=180 new=200 over 10 seconds
+PASS 1111 replica timeline assertions; burst starvation fixed=744 adaptive=26. Synthetic timing, not Steam gameplay.
+PASS menu selection click blocked
+PASS held menu click stays blocked after close
+PASS same-frame menu closing click blocked
+PASS release rearms fire
+PASS new gameplay click allowed
+PASS batched release keeps click sample
+PASS range and muzzle remain from click
+PASS fired click is not replayed
+PASS held samples do not queue duplicate shots
+PASS expired click cannot fire late
+PASS vehicle transfer clears queued fire
+PASS independent guest click 0
+PASS independent guest click 1
+PASS independent guest click 2
+PASS one disconnect preserves other guest fire
+ALL 15 SHOT INPUT CHECKS PASSED
+PASS isolated failure for 2 players / peer 1
+PASS survivors processed next phase
+PASS isolated failure for 2 players / peer 1
+PASS survivors processed next phase
+PASS isolated failure for 3 players / peer 1
+PASS survivors processed next phase
+PASS isolated failure for 3 players / peer 2
+PASS survivors processed next phase
+PASS isolated failure for 4 players / peer 1
+PASS survivors processed next phase
+PASS isolated failure for 4 players / peer 3
+PASS survivors processed next phase
+PASS first owner history does not replay smoke
+PASS new owner request fires
+PASS duplicate packet cannot refire
+PASS new controller starts at zero after transfer
+PASS new controller smoke works
+PASS returning controller establishes nonzero baseline
+PASS returning controller next request works
+PASS counter rollback rejected within same control session
+PASS excess request jump rejected
+PASS invalid request cannot corrupt last accepted counter
+ALL 22 PEER ISOLATION CHECKS PASSED
+PASS authoritative crew penetration count survives wire roundtrip
+PASS host leader survives wire roundtrip
+PASS ordinary member survives wire roundtrip
+PASS handshake 3p guest1
+PASS unique claim 3p guest1
+PASS handshake 3p guest2
+PASS unique claim 3p guest2
+PASS validated burst 3p guest1
+PASS delayed burst preserves firing aim 3p guest1
+PASS validated burst 3p guest2
+PASS delayed burst preserves firing aim 3p guest2
+PASS 20 ordered snapshots and death reach every guest 3p
+PASS remaining guest input after departure 3p guest2
+PASS departed slot reusable 3p
+PASS handshake 4p guest1
+PASS unique claim 4p guest1
+PASS handshake 4p guest2
+PASS unique claim 4p guest2
+PASS handshake 4p guest3
+PASS unique claim 4p guest3
+PASS validated burst 4p guest1
+PASS delayed burst preserves firing aim 4p guest1
+PASS validated burst 4p guest2
+PASS delayed burst preserves firing aim 4p guest2
+PASS validated burst 4p guest3
+PASS delayed burst preserves firing aim 4p guest3
+PASS 20 ordered snapshots and death reach every guest 4p
+PASS remaining guest input after departure 4p guest2
+PASS remaining guest input after departure 4p guest3
+PASS departed slot reusable 4p
+ALL 30 MULTI SYNC CHECKS PASSED. Loopback protocol fixture, NOT Steam/Unity gameplay.
+PASS 30 native reload policy combinations
+PASS 14 infantry health validation and native scale cases
+PASS 35 infantry replication protocol checks; not Unity gameplay
+PASS 15 infantry motion interpolation checks
+PASS 13 mission configuration fixture checks; not native game loading

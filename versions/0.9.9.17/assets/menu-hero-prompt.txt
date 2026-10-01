@@ -1,0 +1,2 @@
+Built-in image_gen tool; generated project background.
+Prompt: Wide 3:1 realistic M1IP Abrams on the right, shadowed central-European forest on the left, dark olive/charcoal military atmosphere; no text, logos, borders, controls or watermark.
