@@ -1,4 +1,4 @@
-> Experimental 0.9.9.17 is available as a [pre-release](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.17). Gameplay verification is incomplete; guest AAR remains limited. Stable auto-updates remain on 0.9.9.16. See the release notes before installing.
+> [0.9.9.17](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.17) is now the latest stable-channel release and is available through the existing launcher. Gameplay verification is incomplete; guest AAR remains limited. See the release notes for known limitations.
 
 # GHPC Unofficial Co-op 0.9.9.16
 
