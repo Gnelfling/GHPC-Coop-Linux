@@ -1,3 +1,7 @@
+# Unreleased — guest AAR trace recovery
+
+See [development snapshot](development/aar-trace-recovery/) for changes, build results and verification limits. Restores missing/disabled trace objects and avoids duplicate labels. The reported guest rendering problem is not yet confirmed resolved in-game.
+
 # 0.9.9.16 — PvE discovery allocation and identity-cache improvements
 
 - Reuse infantry emplacement and aircraft identity hashes only while their full identity inputs remain unchanged; recompute after changes.
@@ -52,4 +56,3 @@ Install the same version on host and guests. This update does not change ownersh
 401 automated mod checks, 28 updater checks and the launcher installation fixture passed. A deterministic rebuild matched the pinned DLL hash. Automated checks do not establish correctness for every account, mission or network condition. Broader live gameplay testing remains necessary.
 
 This is an unofficial community mod, not affiliated with or endorsed by the GHPC developers.
-
