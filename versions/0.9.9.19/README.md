@@ -10,4 +10,3 @@
 - Build and automated fixtures passed, including 34 reload-policy cases. This is not a live Steam/Unity gameplay certification.
 
 Close GHPC and update through the existing launcher, or extract the Setup ZIP and run Install.cmd. Host and guests must use the same build. Steam ownership enforcement remains enabled. Protocol 29.
-[Download 0.9.9.19](https://github.com/dnjsxoq013-debug/GHPC-Coop/releases/tag/v0.9.9.19) | [Source](versions/0.9.9.19/)
