@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "0.9.9.17-dev",
+  "version": "0.9.9.18",
   "tools": [
     {
       "name": "compiler",

@@ -79,3 +79,28 @@ Reported: host displays penetration/spall rays; guest displays x-ray models and 
 Replica traces now use independent scene roots because the wire endpoints are world-space coordinates. Explicitly enable each native ShotTraceVisual and its object. Equal packet geometry no longer means presentation is healthy: destroyed objects are rebuilt and inactive renderers are restored. Renderer discovery runs once after native Start has had a frame to construct meshes, rather than scanning the scene. Camera controls remain local. Text fallback is used only when the corresponding native text box is unavailable or inactive, avoiding duplicate labels.
 
 Diagnostics distinguish received segment count from generated renderer count. Validate with one main-gun hit and spall, then change the host selected shot and rotate the guest camera independently. Check both AAR entry with zero guest shot history and re-entry. A successful build/protocol test does not verify Unity rendering or prove this reported symptom resolved. Running games and published 0.9.9.17 assets have not been changed.
+
+## Mechanical autoloader follow-up
+
+Player-controlled carousel feeds now start the native reload cycle automatically on
+the authoritative host, including its own vehicle. This intentionally differs from
+the game's optional manual/switch-off player preference for mechanical loaders;
+forced-manual feeds remain manual. Human-loaded guns retain the prior policy.
+The existing native Reload method still handles ammunition selection, reserve stock,
+reload duration and equipment restrictions. Idle recovery respects pause, restock,
+missile wait and in-progress cycle guards. Guests do not simulate a second reload.
+No vehicle-name string matching or instant ammunition refill is used.
+
+Policy tests cover mechanical default-off/manual preference, forced-manual exemption
+and unchanged human-loader behaviour. This is not confirmation of in-game T-80B audio,
+carousel motion or repeated-shot playback; verify those on both peers before release.
+
+## 2026-10-02 development follow-up (after stable 0.9.9.18)
+
+- Mechanical autoload recovery also runs for a local solo player without a room. This supports one-vehicle training missions; replica clients still do not simulate a second reload. A local T-80B training test was reported working by the tester. Remote/guest behaviour is not yet verified.
+- Mission selection now has search, readable mission/theater/day-night labels and a scrollable native faction briefing. Native installed assets determine briefing language (English originals or Korean-patched assets); English display has been launched for testing but not visually verified.
+- Friendly formation entries distinguish platoons from individual vehicles. Missing pre-load data is described as unavailable rather than falsely reporting zero vehicles. Some mission previews and counts remain unavailable before loading.
+- Known unresolved report: after reloading, third-person firing may intermittently fail until entering the sight and returning. It later recovered during testing. No fix or confirmed cause is claimed.
+
+Build and automated fixtures passed, including 34 reload-policy combinations. These do not verify live Unity rendering, Steam multiplayer, or the intermittent firing symptom.
+This folder includes a development DLL based on 0.9.9.18; it is not the stable release DLL. All test peers must use the same DLL hash. Stable release assets and launcher update metadata are unchanged.

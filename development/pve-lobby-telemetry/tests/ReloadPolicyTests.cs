@@ -6,6 +6,15 @@ class ReloadPolicyTests
     static void Main()
     {
         int count = 0;
+        if (!ReloadPolicy.PlayerAutomatic(2, 0, false, true))
+            throw new Exception("Mechanical loader must cycle with default switch off");
+        if (!ReloadPolicy.PlayerAutomatic(2, 2, false, true))
+            throw new Exception("Mechanical loader must not inherit manual crew preference");
+        if (ReloadPolicy.PlayerAutomatic(3, 1, true, true))
+            throw new Exception("Forced-manual feed must remain manual");
+        if (ReloadPolicy.PlayerAutomatic(1, 2, false, false))
+            throw new Exception("Human loader manual preference changed");
+        count += 4;
         for (int doctrine = 0; doctrine <= 4; doctrine++)
             for (int preference = 0; preference <= 2; preference++)
                 foreach (bool switched in new[]

@@ -9,7 +9,7 @@ using UnityEngine;
 using GHPC;
 using GHPC.Player;
 
-[assembly: MelonInfo(typeof(GhpcCoop.CoopLabMod), "GHPC Coop Experimental", "0.9.9.17", "Local development")]
+[assembly: MelonInfo(typeof(GhpcCoop.CoopLabMod), "GHPC Coop Experimental", "0.9.9.18", "Local development")]
 [assembly: MelonGame(null, null)]
 namespace GhpcCoop
 {
@@ -79,7 +79,7 @@ namespace GhpcCoop
             var missionArg = args.FirstOrDefault(x => x.StartsWith("--coop-mission="));
             if (missionArg != null)
                 missionChoice = missionArg.Substring("--coop-mission=".Length);
-            GameBridge.Log("0.9.9.17-dev loaded. Network controls enabled only after matching handshake and claim.");
+            GameBridge.Log("0.9.9.18 loaded. Network controls enabled only after matching handshake and claim.");
         }
 
         void Capture()

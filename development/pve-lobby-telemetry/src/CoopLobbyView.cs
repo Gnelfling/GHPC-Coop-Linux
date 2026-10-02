@@ -56,23 +56,105 @@ namespace GhpcCoop
             MenuFill(new Rect(area.x,area.y,1,area.height),edge);
             MenuFill(new Rect(area.xMax-1,area.y,1,area.height),edge);
         }
+        sealed class MissionChoice
+        {
+            public GHPC.Mission.Data.MissionTheaterScriptable Theater;
+            public GHPC.Mission.Data.MissionMetaData Meta;
+        }
+        MissionChoice[] missionChoices;
+        MissionChoice previewMission;
+        string missionSearch = "";
+        string previewForces = "";
+        Vector2 forcesScroll;
+
+        string MissionDetails(MissionChoice choice)
+        {
+            // Read the installed game's localized briefing for the playable faction.
+            // Do not synthesize objectives from the mission name or expose enemy orders.
+            var faction = MissionPolicy.DefaultFaction(choice.Meta);
+            var briefing = choice.Meta.FactionInfo == null ? null :
+                choice.Meta.FactionInfo.FirstOrDefault(x => x.Allegiance == faction);
+            string description = briefing == null ? "" : briefing.Description;
+            if (String.IsNullOrWhiteSpace(description))
+                description = "Briefing unavailable before mission loading.";
+            else
+                description = System.Text.RegularExpressions.Regex.Replace(description, "<[^>]+>", "").Trim();
+            return "MISSION BRIEFING\n\n" + description + "\n\nFRIENDLY FORCES\n\n" + FriendlyForces(choice);
+        }
+
+        string FriendlyForces(MissionChoice choice)
+        {
+            // SpawnOrder.Count counts platoons when PlatoonMode is set. Never
+            // advertise that as an exact vehicle count or a guaranteed player slot.
+            var meta = choice.Meta;
+            if (!meta.IsFlexMission || meta.FlexMissionData == null || meta.FlexMissionData.MissionData == null)
+                return "Vehicle information becomes available after mission loading.";
+            var info = meta.FlexMissionData.MissionData.FriendlySpawnInfo;
+            if (info == null || info.SpawnOrders == null) return "Vehicle information unavailable.";
+            int vehicles = 0, platoons = 0;
+            var rows = new System.Collections.Generic.List<string>();
+            foreach (var order in info.SpawnOrders)
+            {
+                if (order == null || order.Count <= 0) continue;
+                var unit = info.Faction == null || info.Faction.AllUnits == null ? null :
+                    info.Faction.AllUnits.FirstOrDefault(x => x.Key == order.Key);
+                string name = unit != null ? unit.FriendlyName : order.Key;
+                if (String.IsNullOrEmpty(name)) name = order.Class.ToString();
+                if (order.PlatoonMode) platoons += order.Count; else vehicles += order.Count;
+                rows.Add(name + "  x " + order.Count + (order.PlatoonMode ? " platoon(s)" : " vehicle(s)"));
+            }
+            if (rows.Count == 0)
+                return "Vehicle count unavailable before mission loading. This does not mean there are no vehicles.";
+            string total = platoons == 0 ? "Listed vehicles: " + vehicles :
+                "Listed forces: " + vehicles + " individual vehicle(s) + " + platoons + " platoon(s)";
+            return total + "\n\n" + String.Join("\n", rows.ToArray()) +
+                "\n\nDefault mission formation. Customization, reinforcements and controllable seats may differ. Final co-op capacity is checked after loading.";
+        }
         void DrawMissionPicker()
         {
-            GUI.Label(new Rect(45,40,1050,55),"SELECT MISSION",menuTitle);
-            if (MenuAction(new Rect(1170,40,220,45),"BACK")) missionPicker=false;
-            var theaters=Resources.FindObjectsOfTypeAll<GHPC.Mission.Data.MissionTheaterScriptable>().Where(t=>t.Missions!=null).OrderBy(t=>t.Key).ToArray();
-            var choices=theaters.SelectMany(t=>t.Missions.Where(m=>m!=null && !m.IsCategory && !String.IsNullOrEmpty(m.MissionSceneReference.Name)).Select(m=>new {Theater=t,Meta=m})).ToArray();
-            missionScroll=GUI.BeginScrollView(new Rect(40,120,1360,700),missionScroll,new Rect(0,0,1320,choices.Length*58));
+            GUI.Label(new Rect(45,35,1050,55),"SELECT MISSION",menuTitle);
+            if (MenuAction(new Rect(1170,40,220,45),"BACK")) { missionPicker=false; missionChoices=null; }
+            // Resolve the catalogue once per visit rather than scanning all Unity assets on every GUI event.
+            if (missionChoices == null)
+                missionChoices = Resources.FindObjectsOfTypeAll<GHPC.Mission.Data.MissionTheaterScriptable>()
+                    .Where(t=>t.Missions!=null).OrderBy(t=>t.Name)
+                    .SelectMany(t=>t.Missions.Where(m=>m!=null && !m.IsCategory && !String.IsNullOrEmpty(m.MissionSceneReference.Name))
+                    .Select(m=>new MissionChoice {Theater=t,Meta=m})).ToArray();
+            GUI.Label(new Rect(45,95,100,30),"SEARCH",menuSmall);
+            missionSearch = GUI.TextField(new Rect(150,92,660,35),missionSearch,80);
+            var choices=missionChoices.Where(c=>String.IsNullOrEmpty(missionSearch) ||
+                (c.Meta.MissionName+" "+c.Theater.Name).IndexOf(missionSearch,StringComparison.OrdinalIgnoreCase)>=0).ToArray();
+            missionScroll=GUI.BeginScrollView(new Rect(40,145,785,665),missionScroll,new Rect(0,0,745,choices.Length*92));
             for(int i=0;i<choices.Length;i++)
             {
                 var item=choices[i];
-                if(MenuAction(new Rect(0,i*58,1310,50),item.Theater.Key+"  /  "+item.Meta.MissionName))
+                if(MenuAction(new Rect(0,i*92,735,54),item.Meta.MissionName))
                 {
-                    stagingTheater=item.Theater.Key; stagingMission=item.Meta.MissionSceneReference.Name; stagingTitle=item.Meta.MissionName;
-                    InvalidateLobbyReady(); missionPicker=false;
+                    previewMission=item; previewForces=MissionDetails(item); forcesScroll=Vector2.zero;
                 }
+                GUI.Label(new Rect(12,i*92+55,710,28),item.Theater.Name+"  |  "+(item.Meta.IsDefaultDayMission?"DAY":"NIGHT"),menuSmall);
             }
             GUI.EndScrollView();
+            LobbyBox(new Rect(845,145,550,665));
+            if(previewMission==null) { GUI.Label(new Rect(870,175,500,60),"Select a mission to inspect its forces.",menuText); return; }
+            var detail = new GUIStyle(menuText) { wordWrap=true, richText=false };
+            GUI.Label(new Rect(870,170,500,65),previewMission.Meta.MissionName,detail);
+            GUI.Label(new Rect(870,235,500,55),"MAP: "+previewMission.Theater.Name,detail);
+            bool satellite;
+            var map=TerrainPreview(previewMission.Theater.Key,out satellite);
+            if(map!=null) GUI.DrawTexture(new Rect(870,285,500,120),map,ScaleMode.ScaleToFit);
+            // Give the briefing the space of an unavailable image instead of a blank panel.
+            float detailsTop = map != null ? 420 : 295;
+            float detailsHeight = 725 - detailsTop;
+            float height = Mathf.Max(detailsHeight,detail.CalcHeight(new GUIContent(previewForces),470));
+            forcesScroll=GUI.BeginScrollView(new Rect(870,detailsTop,505,detailsHeight),forcesScroll,new Rect(0,0,475,height));
+            GUI.Label(new Rect(0,0,470,height),previewForces,detail);
+            GUI.EndScrollView();
+            if(MenuAction(new Rect(870,745,500,45),"SELECT THIS MISSION",true))
+            {
+                stagingTheater=previewMission.Theater.Key; stagingMission=previewMission.Meta.MissionSceneReference.Name;
+                stagingTitle=previewMission.Meta.MissionName; InvalidateLobbyReady(); missionPicker=false; missionChoices=null;
+            }
         }
         void DrawLobbyView()
         {

@@ -10,6 +10,29 @@ namespace GhpcCoop
     // Reflection strings refer to the supported game's members and must remain exact.
     public static class AmmoSync
     {
+        internal static GHPC.Crew.CrewManager LocalAutoloaderCrew;
+        static GHPC.Unit localLoaderUnit;
+        static WeaponSystem[] localLoaderWeapons = new WeaponSystem[0];
+        public static void RecoverLocalAutoloaders(GameBridge game)
+        {
+            var player = GHPC.Player.PlayerInput.Instance;
+            var unit = player == null ? null : player.CurrentPlayerUnit;
+            LocalAutoloaderCrew = unit == null ? null : unit.CrewManager;
+            if (unit == null || unit.Destroyed || unit.Abandoned || unit.UnitIncapacitated) return;
+            // A one-vehicle training mission cannot host a room. Cache the native
+            // player's weapons directly so local reload does not require a network roster.
+            if (localLoaderUnit != unit)
+            {
+                localLoaderUnit = unit;
+                localLoaderWeapons = unit.GetComponentsInChildren<WeaponSystem>(true);
+                foreach (var weapon in localLoaderWeapons)
+                    if (weapon != null && weapon.Feed != null)
+                        GameBridge.Log("AUTOLOADER local weapon=" + weapon.name + " carousel=" + (weapon.Feed.Carousel != null) + " doctrine=" + weapon.Feed.ReloadMode);
+            }
+            foreach (var weapon in localLoaderWeapons)
+                if (weapon != null && weapon.Feed != null && weapon.Feed.Carousel != null)
+                    RecoverRemoteReload(weapon.Feed, unit.CrewManager);
+        }
         public static readonly Dictionary<AmmoFeed, AmmoState> States = new Dictionary<AmmoFeed, AmmoState>();
         static readonly Dictionary<AmmoFeed, AmmoType> LastKnownBreechAmmo = new Dictionary<AmmoFeed, AmmoType>();
         public static AmmoType LastAmmo(AmmoFeed feed)
@@ -231,12 +254,16 @@ namespace GhpcCoop
         {
             // Ownership can change after the native clip-depleted callback has already run.
             // Retry only an idle, empty feed whose owner's native policy requires auto reload.
-            int preference;
+            if (crew == null) return;
+            int preference = 0;
+            bool hasPreference = RemoteReloadSettings.Preferences.TryGetValue(crew, out preference);
+            bool mechanical = feed != null && feed.Carousel != null &&
+                (crew == LocalAutoloaderCrew || GameBridge.IsRemoteCrew(crew));
             if (feed == null || !feed.enabled || feed.AmmoTypeInBreech != null || feed.Reloading ||
                 feed.Cycling || feed.ForcePauseReload || feed.WaitingOnRestock || feed.WaitingOnMissile ||
                 feed.ReadyRack == null || feed.LoadedClipType == null || feed.CurrentClipRemainingCount > 0 ||
-                !RemoteReloadSettings.Preferences.TryGetValue(crew, out preference) ||
-                !ReloadPolicy.Automatic((int)feed.ReloadMode, preference, feed.AutoReloadSwitchedOn))
+                (!hasPreference && !mechanical) ||
+                !ReloadPolicy.PlayerAutomatic((int)feed.ReloadMode, preference, feed.AutoReloadSwitchedOn, mechanical))
                 return;
             float next;
             if (NextReloadRecovery.TryGetValue(feed, out next) && Time.realtimeSinceStartup < next)
@@ -296,6 +323,9 @@ namespace GhpcCoop
 
         public static void Clear()
         {
+            LocalAutoloaderCrew = null;
+            localLoaderUnit = null;
+            localLoaderWeapons = new WeaponSystem[0];
             foreach (var feed in States.Keys)
                 if (feed != null)
                     InvokeFeedMethod(feed, "StopAutoloaderAudio");
@@ -321,6 +351,12 @@ namespace GhpcCoop
         {
             if (____crewManager == null)
                 return true;
+            if (__instance.Carousel != null &&
+                (____crewManager == AmmoSync.LocalAutoloaderCrew || GameBridge.IsRemoteCrew(____crewManager)))
+            {
+                __result = ReloadPolicy.PlayerAutomatic((int)__instance.ReloadMode, 0, false, true);
+                return false;
+            }
             if (GameBridge.IsRemoteCrew(____crewManager))
             {
                 // Native AutoReload unconditionally returns true for AI-owned units, so
