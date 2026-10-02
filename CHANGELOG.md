@@ -1,3 +1,7 @@
+## 0.9.9.18 — stable launcher channel
+
+PvE staging lobby, guest speed/gear telemetry, rendering budgets and same-account Steam join handling. Guest nameplates, firing performance and AAR remain under verification. See versions/0.9.9.18/README.md.
+
 # Unreleased — guest AAR trace recovery
 
 See [development snapshot](development/aar-trace-recovery/) for changes, build results and verification limits. Restores missing/disabled trace objects and avoids duplicate labels. The reported guest rendering problem is not yet confirmed resolved in-game.
