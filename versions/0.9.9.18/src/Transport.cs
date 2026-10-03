@@ -124,6 +124,7 @@ namespace GhpcCoop
             Connected = true;
             writer = Start(delegate
             {
+                GameBridge.Log("TCP WRITER thread started");
                 while (!stopped)
                 {
                     Message m = null;
@@ -139,19 +140,46 @@ namespace GhpcCoop
                         continue;
                     }
 
-                    Wire.WriteFrame(c.GetStream(), Wire.Encode(m));
+                    GameBridge.Log("TCP WRITE dequeue kind=" + m.Kind + " queueAfter=" + outgoing.Count);
+                    long startTick = System.Diagnostics.Stopwatch.GetTimestamp();
+                    try
+                    {
+                        Wire.WriteFrame(c.GetStream(), Wire.Encode(m));
+                        long elapsedTicks = System.Diagnostics.Stopwatch.GetTimestamp() - startTick;
+                        double elapsedMs = elapsedTicks * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+                        if (elapsedMs > 250)
+                            GameBridge.Log("TCP WRITE slow kind=" + m.Kind + " elapsedMs=" + elapsedMs.ToString("F1"));
+                    }
+                    catch (Exception e)
+                    {
+                        GameBridge.Log("TCP WRITE exception kind=" + m.Kind + " error=" + e.Message);
+                        throw;
+                    }
                 }
+                GameBridge.Log("TCP WRITER thread exited normally");
             });
+            
+            GameBridge.Log("TCP READER thread starting");
             while (!stopped)
             {
-                var m = Wire.Decode(Wire.ReadFrame(c.GetStream()));
-                lock (sync)
+                try
                 {
-                    if (incoming.Count >= 64)
-                        throw new IOException("Receive queue overflow");
-                    incoming.Enqueue(m);
+                    var m = Wire.Decode(Wire.ReadFrame(c.GetStream()));
+                    lock (sync)
+                    {
+                        if (incoming.Count >= 64)
+                            throw new IOException("Receive queue overflow");
+                        incoming.Enqueue(m);
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (!stopped)
+                        GameBridge.Log("TCP READ exception: " + e.Message);
+                    throw;
                 }
             }
+            GameBridge.Log("TCP READER thread exited");
         }
 
         public void Send(Message m)
@@ -161,8 +189,18 @@ namespace GhpcCoop
             Wire.Validate(m);
             lock (sync)
             {
+                int queueLen = outgoing.Count;
+                GameBridge.Log("TCP SEND kind=" + m.Kind + " queueBefore=" + queueLen);
+                
+                if (queueLen >= 15)
+                    GameBridge.Log("TCP SEND WARNING queue high queueLen=" + queueLen);
+                if (queueLen >= 12 && queueLen < 15)
+                    GameBridge.Log("TCP SEND ALERT queue=12+");
+                if (queueLen >= 8 && queueLen < 12)
+                    GameBridge.Log("TCP SEND NOTICE queue=8+");
+                
                 if (outgoing.Count >= 16)
-                    throw new IOException("Send queue overflow");
+                    throw new IOException("Send queue overflow (queue was " + queueLen + ")");
                 outgoing.Enqueue(m);
             }
 
@@ -221,4 +259,3 @@ namespace GhpcCoop
         }
     }
 }
-
