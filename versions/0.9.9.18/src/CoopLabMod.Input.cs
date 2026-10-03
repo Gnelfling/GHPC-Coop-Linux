@@ -100,6 +100,11 @@ namespace GhpcCoop
 
         public override void OnLateUpdate()
         {
+            // Only the authoritative host starts reloads. Guests replay its feed state.
+            if ((hosting || link == null) && !GameBridge.ReplicaActive && !GHPC.AarController.InAar && !GHPC.State.TimeController.Paused)
+                Guard(() => AmmoSync.RecoverLocalAutoloaders(game));
+            else
+                AmmoSync.LocalAutoloaderCrew = null;
             Guard(RunAimTest);
             Guard(SendGuestInputLate);
             if (claimed && !hosting && !GHPC.AarController.InAar)
